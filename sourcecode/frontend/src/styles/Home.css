@@ -1,0 +1,388 @@
+body {
+  margin: 0;
+  font-family: "Merriweather", serif;
+  overflow-y: auto;
+}
+
+/**
+ * Home container
+ */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+/**
+ * Section 1: Main Content
+ */
+.main-content {
+  flex-grow: 1;
+  height: 100vh;
+  background-image: url("../assets/desktop-bg2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  position: relative;
+}
+
+.main-content h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.main-content p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.main-content button {
+  background-color: #faedcd;
+  color: #595d4d;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.main-content button:hover {
+  background-color: #e9edc9;
+}
+
+/**
+ * Section 2: About Section
+ */
+.about-section {
+  height: 100vh;
+  background-color: #fefae0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  color: #595d4d;
+  position: relative;
+}
+
+.about-section h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.about-section p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-align: center;
+  max-width: 800px;
+}
+
+/**
+ * Section 3: Features Section
+ */
+.features-section {
+  height: 100vh;
+  background-color: #e9edc9;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem 2rem;
+  color: #595d4d;
+  position: relative;
+}
+
+.features-section h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.features-section .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.features-section .feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.features-section .feature-item img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  object-fit: contain;
+  display: block;
+}
+
+.features-section h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.features-section p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: #81876f;
+}
+
+.features-section button {
+  background-color: #faedcd;
+  color: #81876f;
+  padding: 0.8rem 1.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.features-section button:hover {
+  background-color: #ccd5ae;
+}
+
+/**
+ * Mobile-specific adjustments
+ */
+@media (max-width: 768px) {
+  .main-content,
+  .about-section,
+  .features-section {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .features-section {
+    padding: 4rem 1rem;
+    padding-bottom: 8rem;
+    height: auto;
+  }
+
+  .features-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .features-section .grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .features-section .feature-item img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .features-section button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/**
+ * Navbar
+ */
+nav {
+  background-color: #ccd5ae;
+  color: #ffffff;
+  z-index: 10;
+  position: sticky;
+  top: 0;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav .text-faedcd {
+  color: #faedcd;
+}
+
+/**
+ * Modal backdrop styling
+ */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+/**
+ * Modal container styling
+ */
+.modal-container {
+  background-color: #e9edc9;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  z-index: 30;
+  color: #333;
+}
+
+.modal-container h2 {
+  color: #333;
+}
+
+.modal-container p {
+  color: #666;
+}
+
+/**
+ * Form input styling
+ */
+.form-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #9ea780;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #333;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #e9edc9;
+  box-shadow: 0 0 4px rgba(233, 237, 201, 0.5);
+}
+
+/**
+ * Buttons
+ */
+button {
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+button.bg-faedcd {
+  background-color: #faedcd;
+}
+
+button.bg-9ea780 {
+  background-color: #9ea780;
+}
+
+button.bg-e9edc9 {
+  background-color: #e9edc9;
+}
+
+.text-9ea780 {
+  color: #9ea780;
+}
+
+/**
+ * Responsive modal
+ */
+@media (max-width: 768px) {
+  .modal-container {
+    width: 100%;
+    max-width: 350px;
+  }
+}
+
+/**
+ * Scroll Button
+ */
+.scroll-button {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 48px;
+  background-image: url("../assets/scroll.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  animation: pulse 1.5s infinite ease-in-out;
+  background-color: transparent !important;
+  box-shadow: none;
+}
+
+/**
+ * First Section Scroll Button Adjustment
+ */
+.main-content .scroll-button {
+  bottom: 6rem;
+  background-color: transparent !important;
+}
+
+/**
+ * Scroll Button for Last Section
+ */
+.scroll-to-top-button {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 48px;
+  background-image: url("../assets/arrow.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  animation: pulse 1.5s infinite ease-in-out;
+  background-color: transparent !important;
+  box-shadow: none;
+  z-index: 10;
+}
+
+/**
+ * Adjust position for mobile screens
+ */
+@media (max-width: 768px) {
+  .scroll-to-top-button {
+    bottom: 2rem;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/**
+ * Pulsating Animation
+ */
+@keyframes pulse {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.1);
+    opacity: 0.8;
+  }
+}

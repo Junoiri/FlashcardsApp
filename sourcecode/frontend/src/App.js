@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-// import Register from "./pages/Register";
-// import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard";
+import Library from "./pages/Library";
 // import Upload from "./pages/Upload";
 // import FlashcardViewer from "./pages/FlashcardViewer";
 // import FlashcardLibrary from "./pages/FlashcardLibrary";
@@ -17,17 +16,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        {/* <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/upload" element={<Upload />} />
-        <Route path="/flashcards/:id" element={<FlashcardViewer />} />
-        <Route path="/library" element={<FlashcardLibrary />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/features" element={<Features />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/settings" element={<Settings />} /> */}
-        {/* <Route path="*" element={<ErrorPage />} /> Catch-all route */}
+        <Route path="/library" element={<Library />} />
       </Routes>
     </Router>
   );

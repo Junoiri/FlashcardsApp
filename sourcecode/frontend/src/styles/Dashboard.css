@@ -1,0 +1,231 @@
+/* Dashboard CSS */
+
+body {
+  margin: 0;
+  font-family: "Merriweather", serif;
+  overflow-y: auto;
+}
+
+.dashboard-container {
+  display: flex;
+  height: auto;
+  background-color: #f4f4f9;
+  min-height: 100vh;
+  background-image: url("../assets/desktop-bg2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    background-image: url("../assets/mobile-bg2.jpg");
+  }
+}
+
+.dashboard-sidebar {
+  background-color: #6c757d;
+  color: white;
+  display: inline-block;
+  padding: 20px 15px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  white-space: nowrap;
+}
+
+.dashboard-sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.dashboard-sidebar li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.dashboard-sidebar img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 10px;
+}
+
+.dashboard-sidebar a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+  text-align: center;
+}
+
+.dashboard-sidebar a:hover {
+  color: #faedcd;
+}
+
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    padding: 10px 10px;
+  }
+
+  .dashboard-sidebar li {
+    margin: 10px 0;
+  }
+
+  .dashboard-sidebar img {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 5px;
+  }
+
+  .dashboard-sidebar a {
+    font-size: 1rem;
+  }
+}
+
+.dashboard-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.transparent-rectangle {
+  background-color: rgba(255, 255, 255, 0.25);
+  margin: 0;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 1200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.welcome-message {
+  font-size: 1.5rem; /* Same size as the other headers */
+  margin-bottom: 40px; /* Increased spacing below welcome message */
+}
+
+.activity-header {
+  font-size: 1.5rem; /* Increased font size */
+  margin-bottom: 40px; /* Increased spacing below activity section */
+  text-align: center;
+}
+
+.flashcards-header {
+  font-size: 1.5rem; /* Same size as the other headers */
+  margin-top: 40px; /* Increased spacing above flashcards section */
+  text-align: center;
+}
+
+.flashcards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Adjusted margin between flashcard blocks */
+  overflow-x: auto; /* Enable horizontal scrolling on desktop */
+  padding-bottom: 10px;
+}
+
+.flashcards-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.flashcards-grid::-webkit-scrollbar-thumb {
+  background: #ccd5ae;
+  border-radius: 4px;
+}
+
+.flashcards-grid::-webkit-scrollbar-track {
+  background: #fefae0;
+}
+
+@media (max-width: 768px) {
+  .flashcards-grid {
+    flex-direction: column;
+    gap: 15px; /* Reduced gap for vertical layout on mobile */
+    overflow-x: hidden; /* Disable horizontal scrolling on mobile */
+  }
+}
+
+.activity-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px 20px; /* Increased vertical gap between rows */
+  justify-content: center;
+}
+
+.activity-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 150px;
+  height: 120px;
+}
+
+.day-label {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.date-label {
+  font-size: 0.9rem;
+  color: #595d4d;
+}
+
+.activity-icon {
+  width: 32px;
+  height: 32px;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .activity-days {
+    grid-template-columns: repeat(4, 1fr); /* 4 days on top row */
+    justify-content: center; /* Align both rows to the center */
+    gap: 15px 5px; /* Reduced horizontal spacing, increased vertical gap */
+  }
+
+  .activity-day {
+    width: 60px; /* Increased width for better fit */
+    height: 110px; /* Increased height for better visibility */
+  }
+}
+
+.load-more-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent; /* Make sure there's no background overriding the icon */
+  border: none;
+  padding: 12px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.load-more-button:hover {
+  transform: scale(1.05);
+}
+
+.load-more-icon {
+  width: 24px; /* Adjust size for the icon */
+  height: 24px;
+  display: block; /* Ensure it's displayed properly */
+}

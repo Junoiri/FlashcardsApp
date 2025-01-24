@@ -2,14 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Library from "./pages/Library";
-// import Upload from "./pages/Upload";
-// import FlashcardViewer from "./pages/FlashcardViewer";
-// import FlashcardLibrary from "./pages/FlashcardLibrary";
-// import About from "./pages/About";
-// import Features from "./pages/Features";
-// import Contact from "./pages/Contact";
-// import Settings from "./pages/Settings";
-// import ErrorPage from "./pages/ErrorPage";
+import Create from "./pages/Create";
+import FlashcardEditor from "./pages/FlashcardEditor";
+import Learn from "./pages/Learn";
 
 function App() {
   return (
@@ -18,6 +13,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/library" element={<Library />} />
+        <Route path="/create" element={<Create />} />
+        <Route path="/editor" element={<FlashcardEditor />} />
+        <Route path="/learn" element={<Learn />} />
       </Routes>
     </Router>
   );

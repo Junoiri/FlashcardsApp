@@ -6,6 +6,7 @@ import libraryIcon from "../assets/music-library.png";
 import settingsIcon from "../assets/settings.png";
 import helpIcon from "../assets/help.png";
 import plusIcon from "../assets/plus.png";
+import closeIcon from "../assets/close.png";
 import FlashcardBlock from "../components/FlashcardBlock";
 
 const Library = () => {
@@ -42,6 +43,9 @@ const Library = () => {
 
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [sortOption, setSortOption] = useState("dateCreated");
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [newSetName, setNewSetName] = useState("");
+  const [newSetCategory, setNewSetCategory] = useState("");
 
   const categories = ["All", ...new Set(flashcards.map((fc) => fc.category))];
 
@@ -57,6 +61,14 @@ const Library = () => {
     }
     return 0;
   });
+
+  const handleCreateStudySet = () => {
+    console.log("Creating Study Set:", {
+      name: newSetName,
+      category: newSetCategory,
+    });
+    navigateTo("/create");
+  };
 
   return (
     <div className="library-container">
@@ -110,7 +122,7 @@ const Library = () => {
 
               <button
                 className="create-study-set-button"
-                onClick={() => console.log("Creating a new study set...")}
+                onClick={() => setIsPopupVisible(true)}
               >
                 <img src={plusIcon} alt="Add" /> Create Study Set
               </button>
@@ -131,6 +143,54 @@ const Library = () => {
           </div>
         </div>
       </main>
+
+      {/* Popup for creating study set */}
+      {isPopupVisible && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <img
+              src={closeIcon}
+              alt="Close"
+              className="popup-close-icon"
+              onClick={() => setIsPopupVisible(false)}
+            />
+            <h2>Create Study Set</h2>
+            <div className="popup-input">
+              <label>Study Set Name</label>
+              <input
+                type="text"
+                value={newSetName}
+                onChange={(e) => setNewSetName(e.target.value)}
+                placeholder="Enter set name"
+              />
+            </div>
+            <div className="popup-input">
+              <label>Category</label>
+              <select
+                value={newSetCategory}
+                onChange={(e) => setNewSetCategory(e.target.value)}
+              >
+                {categories.map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="popup-actions">
+              <button
+                onClick={() => setIsPopupVisible(false)}
+                className="popup-cancel"
+              >
+                Cancel
+              </button>
+              <button onClick={handleCreateStudySet} className="popup-confirm">
+                Create
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

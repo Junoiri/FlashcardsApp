@@ -28,6 +28,11 @@ const FlashcardBlock = ({
     setShowPopup(false);
   };
 
+  const handleEditClick = (e) => {
+    e.stopPropagation();
+    window.location.href = "/create"; // Navigate to the create page
+  };
+
   return (
     <div className="flashcard-block" onClick={onClick}>
       <div className="flashcard-header"></div>
@@ -38,13 +43,7 @@ const FlashcardBlock = ({
         <p className="author">Created by: {author}</p>
       </div>
       <div className="flashcard-actions">
-        <button
-          className="edit-button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onEdit();
-          }}
-        >
+        <button className="edit-button" onClick={handleEditClick}>
           <img src={editIcon} alt="Edit" />
         </button>
         <button className="delete-button" onClick={handleDeleteClick}>

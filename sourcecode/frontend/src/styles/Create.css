@@ -1,0 +1,347 @@
+body {
+  margin: 0;
+  font-family: "Merriweather", serif;
+  overflow-y: auto;
+}
+
+.create-container {
+  display: flex;
+  height: auto;
+  background-color: #f4f4f9;
+  min-height: 100vh;
+  background-image: url("../assets/desktop-bg2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 768px) {
+  .create-container {
+    background-image: url("../assets/mobile-bg2.jpg");
+  }
+}
+
+.create-sidebar {
+  background-color: #6c757d;
+  color: white;
+  display: inline-block;
+  padding: 20px 15px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.create-sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.create-sidebar li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.create-sidebar img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 10px;
+}
+
+.create-sidebar a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+  text-align: center;
+}
+
+.create-sidebar a:hover {
+  color: #faedcd;
+}
+
+@media (max-width: 768px) {
+  .create-sidebar {
+    padding: 10px 10px;
+  }
+
+  .create-sidebar li {
+    margin: 10px 0;
+  }
+
+  .create-sidebar img {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 5px;
+  }
+
+  .create-sidebar a {
+    font-size: 1rem;
+  }
+}
+
+.create-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.create-main.dimmed {
+  filter: blur(2px); /* Slight blur effect */
+  pointer-events: none; /* Prevent interaction with main content */
+}
+
+.content-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.transparent-rectangle {
+  background-color: rgba(255, 255, 255, 0.25);
+  margin: 0;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 1200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+.create-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.create-subtitle {
+  font-size: 1.2rem;
+  color: #595d4d;
+  margin-bottom: 20px;
+}
+
+.create-options {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.create-option {
+  background-color: #6c757d; /* Match sidebar color */
+  color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  max-width: 400px; /* Increased width for better fit */
+  flex: 1;
+  display: flex;
+  flex-direction: row; /* Adjusted layout to row */
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.create-option:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.option-icon {
+  width: 60px;
+  height: 60px;
+  margin-right: 20px; /* Add spacing between icon and text */
+}
+
+.right-arrow {
+  position: absolute;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.recommended-label {
+  background-color: #28a745;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+.create-option-content h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  text-align: left; /* Align content to the left */
+}
+
+.create-option-content p {
+  font-size: 0.9rem;
+  color: #ccc;
+  text-align: left; /* Align content to the left */
+}
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Keep the overlay above other content but not the sidebar */
+}
+
+.popup-content {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 400px;
+}
+
+.popup-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333333;
+}
+
+.popup-content p {
+  font-size: 1rem;
+  color: #666666;
+  margin-bottom: 20px;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.popup-confirm {
+  background-color: #faedcd;
+  color: #595d4d;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup-confirm:hover {
+  background-color: #e9edc9;
+}
+
+.popup-cancel {
+  background-color: #e9edc9;
+  color: #595d4d;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup-cancel:hover {
+  background-color: #faedcd;
+}
+.file-upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #6c757d;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.file-upload-area:hover {
+  border-color: #faedcd;
+}
+
+.upload-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.upload-label img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.upload-label span {
+  font-size: 1rem;
+  color: #333;
+}
+
+input[type="file"] {
+  display: none; /* Hide the default file input */
+}
+
+.popup-content p {
+  margin: 10px 0;
+  color: #595d4d;
+  font-size: 1rem;
+}
+.file-preview-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.file-preview-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid #6c757d;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background-color: #fefae0;
+}
+
+.file-preview-item button {
+  background-color: #faedcd;
+  border: none;
+  color: #595d4d;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.file-preview-item button:hover {
+  background-color: #e9edc9;
+}

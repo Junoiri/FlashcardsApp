@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/Library.css";
 import homeIcon from "../assets/home.png";
 import libraryIcon from "../assets/music-library.png";
@@ -7,56 +7,75 @@ import helpIcon from "../assets/help.png";
 import plusIcon from "../assets/plus.png";
 import closeIcon from "../assets/close.png";
 import FlashcardBlock from "../components/FlashcardBlock";
+import axios from "axios";
+import { getCurrentUser } from "../services/Authentication";
 
 const Library = () => {
-  const navigateTo = (path) => {
-    window.location.href = path;
-  };
-
-  const flashcards = [
-    {
-      setName: "Software Engineering",
-      category: "Other",
-      numFlashcards: "21",
-      author: "John Doe",
-      dateCreated: "2023-01-20",
-      dateViewed: "2023-01-22",
-    },
-    {
-      setName: "Mathematics",
-      category: "Science",
-      numFlashcards: "15",
-      author: "Jane Smith",
-      dateCreated: "2023-01-15",
-      dateViewed: "2023-01-18",
-    },
-    {
-      setName: "Physics",
-      category: "Science",
-      numFlashcards: "18",
-      author: "Albert Einstein",
-      dateCreated: "2023-01-10",
-      dateViewed: "2023-01-20",
-    },
-  ];
-
+  const [flashcardSets, setFlashcardsSets] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [sortOption, setSortOption] = useState("dateCreated");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [newSetName, setNewSetName] = useState("");
   const [newSetCategory, setNewSetCategory] = useState("");
 
-  const categories = ["All", ...new Set(flashcards.map((fc) => fc.category))];
+  useEffect(() => {
+    const fetchFlashcardSets = async () => {
+      try {
+        const user = getCurrentUser();
+        const token = user?.token;
+        console.log("Token:", token);
 
-  const filteredFlashcards = flashcards.filter(
+        const response = await axios.get(
+          `http://localhost:8000/flashcardsets`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setFlashcardsSets(response.data);
+      } catch (error) {
+        console.error("Error fetching flashcards:", error);
+      }
+    };
+
+    fetchFlashcardSets();
+  }, []);
+
+  const categories = [
+    "All",
+    "Math",
+    "Science",
+    "History",
+    "Literature",
+    "Geography",
+    "Art",
+    "Music",
+    "Physics",
+    "Chemistry",
+    "Biology",
+    "Philosophy",
+    "Psychology",
+    "Economics",
+    "Sociology",
+    "Law",
+    "Engineering",
+    "Technology",
+    "Language",
+    "Computer Science",
+    "Political Science",
+  ];
+
+  const filteredFlashcards = flashcardSets.filter(
     (fc) => categoryFilter === "All" || fc.category === categoryFilter
   );
 
   const sortedFlashcards = filteredFlashcards.sort((a, b) => {
     if (sortOption === "dateCreated") {
-      return new Date(b.dateCreated) - new Date(a.dateCreated);
+      return new Date(b.createdAt) - new Date(a.createdAt);
     } else if (sortOption === "dateViewed") {
-      return new Date(b.dateViewed) - new Date(a.dateViewed);
+      return new Date(b.updatedAt) - new Date(a.updatedAt);
     }
     return 0;
   });
@@ -66,26 +85,25 @@ const Library = () => {
       name: newSetName,
       category: newSetCategory,
     });
-    navigateTo("/create");
   };
 
   return (
     <div className="library-container">
       <aside className="library-sidebar">
         <ul>
-          <li onClick={() => navigateTo("/dashboard")}>
+          <li onClick={() => (window.location.href = "/dashboard")}>
             <img src={homeIcon} alt="Home" />
             <a href="/dashboard">Home</a>
           </li>
-          <li onClick={() => navigateTo("/library")}>
+          <li onClick={() => (window.location.href = "/library")}>
             <img src={libraryIcon} alt="Library" />
             <a href="/library">Library</a>
           </li>
-          <li onClick={() => navigateTo("/settings")}>
+          <li onClick={() => (window.location.href = "/settings")}>
             <img src={settingsIcon} alt="Settings" />
             <a href="/settings">Settings</a>
           </li>
-          <li onClick={() => navigateTo("/help")}>
+          <li onClick={() => (window.location.href = "/help")}>
             <img src={helpIcon} alt="Help" />
             <a href="/help">Help</a>
           </li>
@@ -131,11 +149,11 @@ const Library = () => {
               {sortedFlashcards.map((card, index) => (
                 <FlashcardBlock
                   key={index}
-                  setName={card.setName}
+                  setName={card.title}
                   category={card.category}
-                  numFlashcards={card.numFlashcards}
-                  author={card.author}
-                  onClick={() => console.log(`Navigating to ${card.setName}`)}
+                  numFlashcards={card.flashcards.length}
+                  author={card.userId}
+                  onClick={() => console.log(`Navigating to ${card.title}`)}
                 />
               ))}
             </div>
@@ -143,7 +161,6 @@ const Library = () => {
         </div>
       </main>
 
-      {/* Popup for creating study set */}
       {isPopupVisible && (
         <div className="popup-overlay">
           <div className="popup-content">

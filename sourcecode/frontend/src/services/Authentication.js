@@ -1,4 +1,5 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const API_URL = "http://localhost:8000/auth";
 
@@ -25,8 +26,12 @@ export const authenticateUser = async (isRegister, formData) => {
       : { email, password };
 
     const response = await axios.post(endpoint, data);
+    const token = response.data.token;
 
-    localStorage.setItem("token", response.data.token);
+    localStorage.setItem("token", token);
+    const user = jwtDecode(token);
+    localStorage.setItem("user", JSON.stringify(user));
+
     return { success: true };
   } catch (error) {
     console.error("Authentication failed:", error);
@@ -35,4 +40,31 @@ export const authenticateUser = async (isRegister, formData) => {
       message: error.response?.data?.message || "Invalid credentials",
     };
   }
+};
+
+export const getCurrentUser = () => {
+  console.log(
+    "Checking localStorage for token:",
+    localStorage.getItem("token")
+  );
+
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp < currentTime) {
+        console.log("Token has expired.");
+        localStorage.removeItem("token");
+        return null;
+      }
+      return decodedToken;
+    } catch (error) {
+      console.error("Error decoding token:", error);
+      return null;
+    }
+  }
+
+  return null;
 };

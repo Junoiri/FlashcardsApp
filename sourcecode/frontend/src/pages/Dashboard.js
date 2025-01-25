@@ -8,8 +8,31 @@ import helpIcon from "../assets/help.png";
 import circleIcon from "../assets/circle.png";
 import removeIcon from "../assets/remove.png";
 import moreIcon from "../assets/more.png";
+//import { getCurrentUser } from "../services/Authentication";
 
 const Dashboard = () => {
+  // const currentUser = getCurrentUser();
+  //  const userId = currentUser ? currentUser.id : null;
+
+  const initialFlashcards = [
+    {
+      setName: "Software Engineering",
+      category: "Other",
+      numFlashcards: "21",
+    },
+    {
+      setName: "Mathematics",
+      category: "Science",
+      numFlashcards: "15",
+    },
+    {
+      setName: "Physics",
+      category: "Science",
+      numFlashcards: "18",
+    },
+  ];
+  const [flashcards, setFlashcards] = useState(initialFlashcards);
+
   const navigateTo = (path) => {
     window.location.href = path;
   };
@@ -22,27 +45,6 @@ const Dashboard = () => {
     { day: "Fri", date: "Jan 24", activity: false },
     { day: "Sat", date: "Jan 25", activity: false },
     { day: "Sun", date: "Jan 26", activity: true },
-  ];
-
-  const initialFlashcards = [
-    {
-      setName: "Software Engineering",
-      category: "Other",
-      numFlashcards: "21",
-      author: "John Doe",
-    },
-    {
-      setName: "Mathematics",
-      category: "Science",
-      numFlashcards: "15",
-      author: "Jane Smith",
-    },
-    {
-      setName: "Physics",
-      category: "Science",
-      numFlashcards: "18",
-      author: "Albert Einstein",
-    },
   ];
 
   const moreFlashcards = [
@@ -65,8 +67,6 @@ const Dashboard = () => {
       author: "Leonardo Da Vinci",
     },
   ];
-
-  const [flashcards, setFlashcards] = useState(initialFlashcards);
 
   const loadMoreFlashcards = () => {
     setFlashcards([...flashcards, ...moreFlashcards]);
@@ -98,9 +98,7 @@ const Dashboard = () => {
       <main className="dashboard-main">
         <div className="content-placeholder">
           <div className="transparent-rectangle">
-            <p className="welcome-message">
-              Welcome! We're glad to have you back.
-            </p>
+            <p className="welcome-message">Welcome!</p>
             <div className="activity-header">
               <h2>Your Activity</h2>
               <div className="activity-days">

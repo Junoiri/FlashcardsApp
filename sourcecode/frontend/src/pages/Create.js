@@ -18,47 +18,47 @@ const Create = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const handleBackButtonClick = () => {
-    setShowBackPopup(true); // Show the back confirmation popup
+    setShowBackPopup(true);
   };
 
   const confirmBackNavigation = () => {
-    navigate(-1); // Navigate to the previous screen
+    navigate(-1);
   };
 
   const cancelBackNavigation = () => {
-    setShowBackPopup(false); // Close the back popup
+    setShowBackPopup(false);
   };
 
   const handleAIOptionClick = () => {
-    setShowUploadPopup(true); // Show the upload popup
+    setShowUploadPopup(true);
   };
 
   const closeUploadPopup = () => {
-    setShowUploadPopup(false); // Close the upload popup
+    setShowUploadPopup(false);
   };
 
   const handleFileUpload = (e) => {
     const files = Array.from(e.target.files);
-    setUploadedFiles((prevFiles) => [...prevFiles, ...files]); // Add the uploaded files to the list
+    setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
   };
 
   const removeFile = (index) => {
     setUploadedFiles((prevFiles) =>
       prevFiles.filter((_, fileIndex) => fileIndex !== index)
-    ); // Remove the file from the list
+    );
   };
 
   const handleDone = () => {
     console.log("Files uploaded:", uploadedFiles);
-    closeUploadPopup(); // Close the popup after confirming
+    closeUploadPopup();
   };
 
   const navigateToEditor = () => {
-    navigate("/editor"); // Navigate to the FlashcardEditor page
+    navigate("/editor");
   };
 
   const navigateTo = (path) => {
-    navigate(path); // Navigate to a specific route
+    navigate(path);
   };
 
   return (
@@ -104,12 +104,8 @@ const Create = () => {
                   className="option-icon"
                 />
                 <div className="create-option-content">
-                  <span className="recommended-label">Recommended</span>
                   <h2>Generate flashcards with AI</h2>
-                  <p>
-                    Select files, topics, or text, and let AI generate custom
-                    flashcards.
-                  </p>
+                  <p>Select file and let AI generate custom flashcards.</p>
                 </div>
                 <img src={rightArrowIcon} alt="Arrow" className="right-arrow" />
               </div>
@@ -134,7 +130,6 @@ const Create = () => {
         </div>
       </main>
 
-      {/* Back Confirmation Popup */}
       {showBackPopup && (
         <div className="popup-overlay">
           <div className="popup-content">
@@ -152,12 +147,11 @@ const Create = () => {
         </div>
       )}
 
-      {/* AI Upload Popup */}
       {showUploadPopup && (
         <div className="popup-overlay">
           <div className="popup-content">
             <h2>Generate flashcards with AI</h2>
-            <p>Drag or upload files (PDF, PPT, DOC) here.</p>
+            <p>Drag or upload files (PDF, DOC) here.</p>
             <div className="file-upload-area">
               <label htmlFor="file-upload" className="upload-label">
                 <img src={uploadIcon} alt="Upload Icon" />
@@ -166,7 +160,7 @@ const Create = () => {
               <input
                 id="file-upload"
                 type="file"
-                accept=".pdf,.ppt,.doc,.docx"
+                accept=".pdf,.doc,.docx"
                 multiple
                 onChange={handleFileUpload}
               />

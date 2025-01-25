@@ -52,6 +52,8 @@ body {
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: 200px;
+  text-align: center;
 }
 
 .main-content button:hover {
@@ -269,6 +271,13 @@ nav .text-faedcd {
   color: #333;
 }
 
+.input-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
 .form-input:focus {
   outline: none;
   border-color: #e9edc9;
@@ -385,4 +394,24 @@ button.bg-e9edc9 {
     transform: translateX(-50%) scale(1.1);
     opacity: 0.8;
   }
+}
+
+/**
+* Notification customization
+*/
+.toastify-success {
+  background-color: #506d06 !important;
+  color: #fff !important;
+  font-size: 16px;
+}
+
+.toastify-error {
+  background-color: #711805 !important;
+  color: #fff !important;
+  font-size: 16px;
+}
+
+.toastify-default {
+  border-radius: 8px;
+  padding: 10px 20px;
 }

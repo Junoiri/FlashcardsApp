@@ -5,7 +5,7 @@ export default function ProtectedRoute({ children, role }) {
   const userRole = token ? "user" : null;
 
   if (!token || userRole !== role) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/auth/login" />;
   }
 
   return children;

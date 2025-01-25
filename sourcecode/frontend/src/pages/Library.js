@@ -1,4 +1,3 @@
-// Library.js
 import React, { useState } from "react";
 import "../styles/Library.css";
 import homeIcon from "../assets/home.png";

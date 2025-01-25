@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import "../styles/Home.css";
-import checkIcon from "../assets/check.png"; // Import the image
+import checkIcon from "../assets/check.png";
 
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
@@ -10,22 +10,13 @@ const Home = () => {
   const aboutSectionRef = useRef(null);
   const featuresSectionRef = useRef(null);
 
-  /**
-   * Toggles the modal visibility and resets to login form
-   */
   const toggleModal = () => {
     setShowModal((prev) => !prev);
     setIsRegister(false);
   };
 
-  /**
-   * Switches to the register form
-   */
   const switchToRegister = () => setIsRegister(true);
 
-  /**
-   * Switches to the login form
-   */
   const switchToLogin = () => setIsRegister(false);
 
   /**

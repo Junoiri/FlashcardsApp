@@ -12,7 +12,6 @@ const FlashcardEditor = () => {
   const [flashcards, setFlashcards] = useState([{ question: "", answer: "" }]);
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
 
-  // Toolbar button handlers
   const toggleBold = () => setBoldActive((prev) => !prev);
   const toggleItalic = () => setItalicActive((prev) => !prev);
   const toggleUnderline = () => setUnderlineActive((prev) => !prev);
@@ -27,7 +26,6 @@ const FlashcardEditor = () => {
     return styles;
   };
 
-  // Image upload handler
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {

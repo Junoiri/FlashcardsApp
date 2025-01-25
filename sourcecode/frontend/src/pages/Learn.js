@@ -14,12 +14,11 @@ const Learn = () => {
   };
 
   const toggleShowAnswer = () => {
-    setShowAnswer((prev) => !prev); // Toggle between question and answer
+    setShowAnswer((prev) => !prev);
   };
 
   return (
     <div className="learn-container">
-      {/* Header */}
       <div className="learn-header">
         <div className="back-button" onClick={() => window.history.back()}>
           <img src={backIcon} alt="Go Back" />
@@ -27,7 +26,6 @@ const Learn = () => {
         <h1 className="learn-title">Revision: Geography</h1>
       </div>
 
-      {/* Progress Bar */}
       <div className="progress-bar">
         <div className="progress-step"></div>
         <div className="progress-step"></div>
@@ -36,7 +34,6 @@ const Learn = () => {
         <div className="progress-step"></div>
       </div>
 
-      {/* Flashcard */}
       <div className="flashcard-container">
         <div className="flashcard">
           <div className="flashcard-content">
@@ -48,7 +45,6 @@ const Learn = () => {
         </div>
       </div>
 
-      {/* Options */}
       <div className="options-container">
         <button className="option-button option-bad">
           <img src={sadIcon} alt="Bad" />

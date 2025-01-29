@@ -30,7 +30,7 @@ const FlashcardBlock = ({
 
   const handleEditClick = (e) => {
     e.stopPropagation();
-    window.location.href = "/create"; // Navigate to the create page
+    window.location.href = "/create";
   };
 
   return (
@@ -39,8 +39,8 @@ const FlashcardBlock = ({
       <div className="flashcard-content">
         <h3 className="set-name">{setName}</h3>
         <p className="category">{category}</p>
-        <p className="num-flashcards">{numFlashcards} Flashcards</p>
-        <p className="author">Created by: {author}</p>
+        <p className="num-flashcards">{numFlashcards ?? 0} Flashcards</p>
+        <p className="author">Created by: {author || "Unknown"}</p>
       </div>
       <div className="flashcard-actions">
         <button className="edit-button" onClick={handleEditClick}>
@@ -51,7 +51,6 @@ const FlashcardBlock = ({
         </button>
       </div>
 
-      {/* Custom Popup */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-content">

@@ -59,7 +59,7 @@ export const getCurrentUser = () => {
         localStorage.removeItem("token");
         return null;
       }
-      return decodedToken;
+      return { ...decodedToken, token };
     } catch (error) {
       console.error("Error decoding token:", error);
       return null;

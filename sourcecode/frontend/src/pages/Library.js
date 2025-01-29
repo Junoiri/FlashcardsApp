@@ -22,8 +22,13 @@ const Library = () => {
     const fetchFlashcardSets = async () => {
       try {
         const user = getCurrentUser();
-        const token = user?.token;
-        console.log("Token:", token);
+        if (!user) {
+          console.error("No valid user found.");
+          return;
+        }
+
+        const token = localStorage.getItem("token");
+        console.log("Token Sent in Request:", token);
 
         const response = await axios.get(
           `http://localhost:8000/flashcardsets`,
@@ -34,9 +39,13 @@ const Library = () => {
           }
         );
 
+        console.log("API Response:", response.data);
         setFlashcardsSets(response.data);
       } catch (error) {
-        console.error("Error fetching flashcards:", error);
+        console.error(
+          "Error fetching flashcards:",
+          error.response?.data || error
+        );
       }
     };
 
@@ -151,7 +160,7 @@ const Library = () => {
                   key={index}
                   setName={card.title}
                   category={card.category}
-                  numFlashcards={card.flashcards.length}
+                  numFlashcards={card.flashcards}
                   author={card.userId}
                   onClick={() => console.log(`Navigating to ${card.title}`)}
                 />

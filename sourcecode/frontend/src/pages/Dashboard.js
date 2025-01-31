@@ -1,18 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Dashboard.css";
 import FlashcardBlock from "../components/FlashcardBlock";
 import homeIcon from "../assets/home.png";
 import libraryIcon from "../assets/music-library.png";
 import settingsIcon from "../assets/settings.png";
-import helpIcon from "../assets/help.png";
 import circleIcon from "../assets/circle.png";
 import removeIcon from "../assets/remove.png";
 import moreIcon from "../assets/more.png";
-//import { getCurrentUser } from "../services/Authentication";
+import { getCurrentUser } from "../services/Authentication";
+import axios from "axios";
 
 const Dashboard = () => {
-  // const currentUser = getCurrentUser();
-  //  const userId = currentUser ? currentUser.id : null;
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    const fetchMe = async () => {
+      try {
+        const user = getCurrentUser();
+        if (!user) {
+          console.error("No valid user found.");
+          return;
+        }
+
+        const token = localStorage.getItem("token");
+
+        const response = await axios.get(
+          `http://localhost:8000/users/${user.id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        setUsername(response.data.username);
+      } catch (error) {
+        console.error("Error fetching user:", error.response?.data || error);
+      }
+    };
+    fetchMe();
+  });
 
   const initialFlashcards = [
     {
@@ -38,13 +63,13 @@ const Dashboard = () => {
   };
 
   const days = [
-    { day: "Mon", date: "Jan 20", activity: false },
-    { day: "Tue", date: "Jan 21", activity: false },
-    { day: "Wed", date: "Jan 22", activity: false },
-    { day: "Thu", date: "Jan 23", activity: true },
-    { day: "Fri", date: "Jan 24", activity: false },
-    { day: "Sat", date: "Jan 25", activity: false },
-    { day: "Sun", date: "Jan 26", activity: true },
+    { day: "Mon", date: "Feb 3", activity: false },
+    { day: "Tue", date: "Feb 4", activity: false },
+    { day: "Wed", date: "Feb 5", activity: false },
+    { day: "Thu", date: "Feb 6", activity: true },
+    { day: "Fri", date: "Feb 7", activity: false },
+    { day: "Sat", date: "Feb 8", activity: false },
+    { day: "Sun", date: "Feb 9", activity: true },
   ];
 
   const moreFlashcards = [
@@ -88,17 +113,13 @@ const Dashboard = () => {
             <img src={settingsIcon} alt="Settings" />
             <a href="/settings">Settings</a>
           </li>
-          <li onClick={() => navigateTo("/help")}>
-            <img src={helpIcon} alt="Help" />
-            <a href="/help">Help</a>
-          </li>
         </ul>
       </aside>
 
       <main className="dashboard-main">
         <div className="content-placeholder">
           <div className="transparent-rectangle">
-            <p className="welcome-message">Welcome!</p>
+            <p className="welcome-message">Welcome {username}!</p>
             <div className="activity-header">
               <h2>Your Activity</h2>
               <div className="activity-days">

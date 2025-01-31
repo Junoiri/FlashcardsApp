@@ -3,7 +3,6 @@ import "../styles/Library.css";
 import homeIcon from "../assets/home.png";
 import libraryIcon from "../assets/music-library.png";
 import settingsIcon from "../assets/settings.png";
-import helpIcon from "../assets/help.png";
 import plusIcon from "../assets/plus.png";
 import closeIcon from "../assets/close.png";
 import FlashcardBlock from "../components/FlashcardBlock";
@@ -16,6 +15,7 @@ const Library = () => {
   const [sortOption, setSortOption] = useState("dateCreated");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [newSetName, setNewSetName] = useState("");
+  const [username, setUsername] = useState("");
   const [newSetCategory, setNewSetCategory] = useState("");
 
   useEffect(() => {
@@ -40,7 +40,12 @@ const Library = () => {
         );
 
         console.log("API Response:", response.data);
-        setFlashcardsSets(response.data);
+
+        const userFlashcardSets = Array.isArray(response.data)
+          ? response.data.filter((set) => set.userId === user.id)
+          : [];
+
+        setFlashcardsSets(userFlashcardSets);
       } catch (error) {
         console.error(
           "Error fetching flashcards:",
@@ -50,8 +55,95 @@ const Library = () => {
     };
 
     fetchFlashcardSets();
+
+    fetchMe();
   }, []);
 
+  const fetchMe = async () => {
+    try {
+      const user = getCurrentUser();
+      if (!user) {
+        console.error("No valid user found.");
+        return;
+      }
+
+      const token = localStorage.getItem("token");
+
+      const response = await axios.get(
+        `http://localhost:8000/users/${user.id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      setUsername(response.data.username);
+    } catch (error) {
+      console.error("Error fetching user:", error.response?.data || error);
+    }
+  };
+
+  const createFlashcardSet = async () => {
+    try {
+      const user = getCurrentUser();
+      if (!user) {
+        console.error("No valid user found.");
+        return;
+      }
+
+      const token = localStorage.getItem("token");
+      console.log("Token Sent in Request:", token);
+
+      const response = await axios.post(
+        `http://localhost:8000/flashcardsets`,
+        {
+          username: username,
+          title: newSetName,
+          description: newSetCategory,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("API Response:", response.data);
+      setFlashcardsSets((prevSets) => [...prevSets, response.data]);
+      setIsPopupVisible(false);
+    } catch (error) {
+      console.error(
+        "Error creating flashcard set:",
+        error.response?.data || error
+      );
+    }
+  };
+
+  /* const deleteFlashcardSets = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      console.log("Token Sent in Request:", token);
+
+      const response = await axios.delete(
+        `http://localhost:8000/flashcardsets`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("API Response:", response.data);
+
+      deleteFlashcardSets();
+    } catch (error) {
+      console.error(
+        "Error fetching flashcards:",
+        error.response?.data || error
+      );
+    }
+  };
+*/
   const categories = [
     "All",
     "Math",
@@ -89,13 +181,6 @@ const Library = () => {
     return 0;
   });
 
-  const handleCreateStudySet = () => {
-    console.log("Creating Study Set:", {
-      name: newSetName,
-      category: newSetCategory,
-    });
-  };
-
   return (
     <div className="library-container">
       <aside className="library-sidebar">
@@ -111,10 +196,6 @@ const Library = () => {
           <li onClick={() => (window.location.href = "/settings")}>
             <img src={settingsIcon} alt="Settings" />
             <a href="/settings">Settings</a>
-          </li>
-          <li onClick={() => (window.location.href = "/help")}>
-            <img src={helpIcon} alt="Help" />
-            <a href="/help">Help</a>
           </li>
         </ul>
       </aside>
@@ -209,7 +290,7 @@ const Library = () => {
               >
                 Cancel
               </button>
-              <button onClick={handleCreateStudySet} className="popup-confirm">
+              <button className="popup-confirm" onClick={createFlashcardSet}>
                 Create
               </button>
             </div>

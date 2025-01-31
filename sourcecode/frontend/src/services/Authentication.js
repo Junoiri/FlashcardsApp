@@ -43,28 +43,33 @@ export const authenticateUser = async (isRegister, formData) => {
 };
 
 export const getCurrentUser = () => {
-  console.log(
-    "Checking localStorage for token:",
-    localStorage.getItem("token")
-  );
-
   const token = localStorage.getItem("token");
 
   if (token) {
     try {
+      console.log("Token Found:", token);
+
       const decodedToken = jwtDecode(token);
+      console.log("Decoded Token:", decodedToken);
+
       const currentTime = Date.now() / 1000;
       if (decodedToken.exp < currentTime) {
         console.log("Token has expired.");
-        localStorage.removeItem("token");
         return null;
       }
-      return { ...decodedToken, token };
+
+      if (!decodedToken.userId) {
+        console.error("User ID not found in token.");
+        return null;
+      }
+
+      return { ...decodedToken, id: decodedToken.userId, token };
     } catch (error) {
       console.error("Error decoding token:", error);
       return null;
     }
   }
 
+  console.log("No token found in localStorage.");
   return null;
 };

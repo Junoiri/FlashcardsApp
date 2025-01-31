@@ -1,7 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const flashcardSetController = require('../controllers/flashcardSetController');
-const authorize = require('../auth/authorize');
+const flashcardSetController = require("../controllers/flashcardSetController");
+const authorize = require("../auth/authorize");
 
 /**
  * @swagger
@@ -62,7 +62,7 @@ const authorize = require('../auth/authorize');
  *       500:
  *         description: Server error
  */
-router.get('/', authorize(), flashcardSetController.getAllFlashcardSets);
+router.get("/", authorize(), flashcardSetController.getAllFlashcardSets);
 
 /**
  * @swagger
@@ -93,7 +93,7 @@ router.get('/', authorize(), flashcardSetController.getAllFlashcardSets);
  *       500:
  *         description: Server error
  */
-router.get('/:id', authorize(), flashcardSetController.getFlashcardSetById);
+router.get("/:id", authorize(), flashcardSetController.getFlashcardSetById);
 
 /**
  * @swagger
@@ -136,7 +136,7 @@ router.get('/:id', authorize(), flashcardSetController.getFlashcardSetById);
  *       400:
  *         description: Bad request
  */
-router.post('/', authorize(), flashcardSetController.createFlashcardSet);
+router.post("/", authorize(), flashcardSetController.createFlashcardSet);
 
 /**
  * @swagger
@@ -185,7 +185,7 @@ router.post('/', authorize(), flashcardSetController.createFlashcardSet);
  *       500:
  *         description: Server error
  */
-router.patch('/:id', authorize(), flashcardSetController.updateFlashcardSet);
+router.patch("/:id", authorize(), flashcardSetController.updateFlashcardSet);
 
 /**
  * @swagger
@@ -214,6 +214,6 @@ router.patch('/:id', authorize(), flashcardSetController.updateFlashcardSet);
  *       500:
  *         description: Server error
  */
-router.delete('/:id', authorize(), flashcardSetController.deleteFlashcardSet);
+router.delete("/:id", authorize(), flashcardSetController.deleteFlashcardSet);
 
 module.exports = router;

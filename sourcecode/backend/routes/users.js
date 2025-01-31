@@ -1,7 +1,7 @@
-const express = require('express')
-const router = express.Router()
-const flashcardSetController = require('../controllers/userController');
-const authorize = require('../auth/authorize');
+const express = require("express");
+const router = express.Router();
+const userController = require("../controllers/userController");
+const authorize = require("../auth/authorize");
 
 /**
  * @swagger
@@ -58,7 +58,7 @@ const authorize = require('../auth/authorize');
  *       500:
  *         description: Server error
  */
-router.get('/', authorize('admin'), flashcardSetController.getAllUsers)
+router.get("/", authorize("admin"), userController.getAllUsers);
 
 /**
  * @swagger
@@ -87,7 +87,7 @@ router.get('/', authorize('admin'), flashcardSetController.getAllUsers)
  *       500:
  *         description: Server error
  */
-router.get('/:id', authorize('admin'), flashcardSetController.getUserById)
+router.get("/:id", authorize(), userController.getUserById);
 
 /**
  * @swagger
@@ -113,7 +113,7 @@ router.get('/:id', authorize('admin'), flashcardSetController.getUserById)
  *       400:
  *         description: Bad request
  */
-router.post('/', authorize('admin'), flashcardSetController.createUser)
+router.post("/", authorize("admin"), userController.createUser);
 
 /**
  * @swagger
@@ -148,7 +148,7 @@ router.post('/', authorize('admin'), flashcardSetController.createUser)
  *       404:
  *         description: User not found
  */
-router.patch('/:id', authorize('admin'), flashcardSetController.updateUser)
+router.patch("/:id", authorize("admin"), userController.updateUser);
 
 /**
  * @swagger
@@ -173,6 +173,6 @@ router.patch('/:id', authorize('admin'), flashcardSetController.updateUser)
  *       500:
  *         description: Server error
  */
-router.delete('/:id', authorize('admin'), flashcardSetController.deleteUser)
+router.delete("/:id", authorize("admin"), userController.deleteUser);
 
-module.exports = router
+module.exports = router;

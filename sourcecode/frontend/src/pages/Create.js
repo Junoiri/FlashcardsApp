@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../styles/Create.css";
 import backIcon from "../assets/back.png";
 import homeIcon from "../assets/home.png";
@@ -16,50 +17,54 @@ const Create = () => {
   const [showBackPopup, setShowBackPopup] = useState(false);
   const [showUploadPopup, setShowUploadPopup] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [extractedText, setExtractedText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleBackButtonClick = () => {
-    setShowBackPopup(true);
-  };
-
-  const confirmBackNavigation = () => {
-    navigate(-1);
-  };
-
-  const cancelBackNavigation = () => {
-    setShowBackPopup(false);
-  };
-
-  const handleAIOptionClick = () => {
-    setShowUploadPopup(true);
-  };
-
-  const closeUploadPopup = () => {
-    setShowUploadPopup(false);
-  };
+  const handleBackButtonClick = () => setShowBackPopup(true);
+  const confirmBackNavigation = () => navigate(-1);
+  const cancelBackNavigation = () => setShowBackPopup(false);
+  const handleAIOptionClick = () => setShowUploadPopup(true);
+  const closeUploadPopup = () => setShowUploadPopup(false);
 
   const handleFileUpload = (e) => {
     const files = Array.from(e.target.files);
-    setUploadedFiles((prevFiles) => [...prevFiles, ...files]);
+    setUploadedFiles(files);
   };
 
   const removeFile = (index) => {
-    setUploadedFiles((prevFiles) =>
-      prevFiles.filter((_, fileIndex) => fileIndex !== index)
-    );
+    setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
-  const handleDone = () => {
-    console.log("Files uploaded:", uploadedFiles);
-    closeUploadPopup();
+  const handleDone = async () => {
+    if (uploadedFiles.length === 0) return;
+
+    setLoading(true);
+    setExtractedText("");
+    setError(null);
+
+    const formData = new FormData();
+    formData.append("pdfFile", uploadedFiles[0]); // Only handling one file for now
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/extract/extract-text",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      setExtractedText(response.data.text);
+    } catch (err) {
+      setError("Failed to extract text. Please try again.");
+    }
+
+    setLoading(false);
   };
 
-  const navigateToEditor = () => {
-    navigate("/editor");
-  };
-
-  const navigateTo = (path) => {
-    navigate(path);
-  };
+  const navigateToEditor = () => navigate("/editor");
+  const navigateTo = (path) => navigate(path);
 
   return (
     <div className="create-container">
@@ -151,20 +156,20 @@ const Create = () => {
         <div className="popup-overlay">
           <div className="popup-content">
             <h2>Generate flashcards with AI</h2>
-            <p>Drag or upload files (PDF, DOC) here.</p>
+            <p>Upload a PDF file to extract text.</p>
             <div className="file-upload-area">
               <label htmlFor="file-upload" className="upload-label">
                 <img src={uploadIcon} alt="Upload Icon" />
-                <span>Upload files</span>
+                <span>Upload file</span>
               </label>
               <input
                 id="file-upload"
                 type="file"
-                accept=".pdf,.doc,.docx"
-                multiple
+                accept=".pdf"
                 onChange={handleFileUpload}
               />
             </div>
+
             <ul className="file-preview-list">
               {uploadedFiles.map((file, index) => (
                 <li key={index} className="file-preview-item">
@@ -173,13 +178,29 @@ const Create = () => {
                 </li>
               ))}
             </ul>
+
+            {loading && <p>Extracting text...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            {extractedText && (
+              <div className="extracted-text">
+                <h3>Extracted Text</h3>
+                <pre>{extractedText}</pre>
+                <button
+                  onClick={() => navigateToEditor()}
+                  className="popup-confirm"
+                >
+                  Proceed to Flashcards
+                </button>
+              </div>
+            )}
+
             <div className="popup-actions">
               <button onClick={closeUploadPopup} className="popup-cancel">
                 Close
               </button>
               {uploadedFiles.length > 0 && (
                 <button onClick={handleDone} className="popup-confirm">
-                  Done
+                  Extract
                 </button>
               )}
             </div>

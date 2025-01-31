@@ -1,8 +1,9 @@
 require("dotenv").config();
 
+const fs = require("fs");
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
-const app = express();
 const mongoose = require("mongoose");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
@@ -19,7 +20,9 @@ const corsOptions = {
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
+const app = express();
 app.use(cors(corsOptions));
+app.use(express.json());
 
 const options = {
   definition: {
@@ -55,18 +58,17 @@ const options = {
 
 const specs = swaggerJsDoc(options);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
-app.use(express.json());
 
 const usersRouter = require("./routes/users");
-app.use("/users", usersRouter);
-
 const flashcardSetRouter = require("./routes/flashcardsets");
-app.use("/flashcardSets", flashcardSetRouter);
-
 const flashcardRouter = require("./routes/flashcards");
-app.use("/flashcards", flashcardRouter);
-
 const authRouter = require("./routes/auth");
+const extractRouter = require("./routes/extract");
+
+app.use("/users", usersRouter);
+app.use("/flashcardSets", flashcardSetRouter);
+app.use("/flashcards", flashcardRouter);
 app.use("/auth", authRouter);
+app.use("/extract", extractRouter);
 
 app.listen(8000, () => console.log("Server Started"));

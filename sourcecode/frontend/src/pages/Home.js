@@ -20,6 +20,17 @@ const Home = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const showToast = (type, message) => {
+    toast(message, {
+      className:
+        type === "success"
+          ? "toastify-success"
+          : type === "error"
+          ? "toastify-error"
+          : "toastify-default",
+    });
+  };
+
   const handleAuth = async (e) => {
     e.preventDefault();
     console.log("Sending request:", isRegister, formData);
@@ -28,11 +39,14 @@ const Home = () => {
 
     if (!result.success) {
       setErrors(result.errors || {});
-      toast.error(result.message || "Please fix the errors");
+      showToast("error", result.message || "Please fix the errors");
       return;
     }
 
-    toast.success(`${isRegister ? "Registration" : "Login"} successful!`);
+    showToast(
+      "success",
+      `${isRegister ? "Registration" : "Login"} successful!`
+    );
 
     if (isRegister) {
       setIsRegister(false);

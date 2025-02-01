@@ -19,37 +19,22 @@ const PreviewPage = () => {
       console.error("No flashcard set ID provided.");
       return;
     }
+
     const fetchFlashcardSet = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log("Token:", token);
         const response = await axios.get(
           `http://localhost:8000/flashcards/set/${flashcardSetId}`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
-        console.log("API9 Response:", response.data);
 
-        if (response.data && response.data.flashcards) {
-          setFlashcards(response.data);
-        } else {
-          setError("No flashcards available in this set.");
-        }
+        console.log("API Response:", response.data);
+        setFlashcards(response.data);
       } catch (error) {
         console.error("Error fetching flashcards:", error);
-        if (error.response) {
-          console.error("Error Response:", error.response);
-          if (error.response.status === 404) {
-            setError("Flashcard set not found.");
-          } else {
-            setError("An error occurred while fetching the flashcards.");
-          }
-        } else {
-          setError("An error occurred while fetching the flashcards.");
-        }
+        setError("An error occurred while fetching the flashcards.");
       }
     };
 
@@ -114,14 +99,11 @@ const PreviewPage = () => {
               </div>
             ) : (
               <div className="flashcard-grid">
-                {flashcards.flashcards &&
-                Array.isArray(flashcards.flashcards) &&
-                flashcards.flashcards.length > 0 ? (
-                  flashcards.flashcards.map((flashcard, index) => (
+                {flashcards.length > 0 ? (
+                  flashcards.map((flashcard, index) => (
                     <div key={index} className="flashcard">
-                      <p className="flashcard-question">{flashcard.question}</p>
-                      <hr />
-                      <p className="flashcard-answer">{flashcard.answer}</p>
+                      <p className="flashcard-question">{flashcard.term}</p>
+                      <p className="flashcard-answer">{flashcard.definition}</p>
                     </div>
                   ))
                 ) : (

@@ -396,9 +396,6 @@ button.bg-e9edc9 {
   }
 }
 
-/**
-* Notification customization
-*/
 .toastify-success {
   background-color: #506d06 !important;
   color: #fff !important;

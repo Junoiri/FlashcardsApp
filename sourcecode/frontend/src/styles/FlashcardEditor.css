@@ -207,3 +207,20 @@ body {
 .save-button:hover {
   background-color: #969d7c;
 }
+
+.toastify-success {
+  background-color: #506d06 !important;
+  color: #fff !important;
+  font-size: 16px;
+}
+
+.toastify-error {
+  background-color: #711805 !important;
+  color: #fff !important;
+  font-size: 16px;
+}
+
+.toastify-default {
+  border-radius: 8px;
+  padding: 10px 20px;
+}

@@ -3,6 +3,8 @@ import "../styles/FlashcardEditor.css";
 import backIcon from "../assets/back.png";
 import imageIcon from "../assets/imageIcon.png";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const FlashcardEditor = () => {
   const [boldActive, setBoldActive] = useState(false);
@@ -31,6 +33,17 @@ const FlashcardEditor = () => {
     return styles;
   };
 
+  const showToast = (type, message) => {
+    toast(message, {
+      className:
+        type === "success"
+          ? "toastify-success"
+          : type === "error"
+          ? "toastify-error"
+          : "toastify-default",
+    });
+  };
+
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -49,47 +62,40 @@ const FlashcardEditor = () => {
 
   const handleSave = async () => {
     try {
-      // Log the entire flashcards array to inspect them
       console.log("Flashcards before saving:", flashcards);
-
-      const flashcardsData = flashcards.map((flashcard) => ({
-        setId: flashcardSetId,
-        term: flashcard.question,
-        definition: flashcard.answer,
-      }));
-
-      // Log the mapped flashcards data before sending
-      console.log("Mapped flashcards data:", flashcardsData);
-
-      // Check if the flashcards are valid (no empty fields)
-      const invalidFlashcards = flashcardsData.filter(
-        (flashcard) =>
-          !flashcard.setId || !flashcard.term || !flashcard.definition
-      );
       const token = localStorage.getItem("token");
 
-      if (invalidFlashcards.length > 0) {
-        console.error(
-          "Some flashcards are missing required fields:",
-          invalidFlashcards
-        );
-        return;
+      for (const flashcard of flashcards) {
+        const flashcardData = {
+          setId: flashcardSetId,
+          term: flashcard.question,
+          definition: flashcard.answer,
+        };
+
+        console.log("Saving flashcard:", flashcardData);
+
+        if (
+          !flashcardData.setId ||
+          !flashcardData.term ||
+          !flashcardData.definition
+        ) {
+          console.error("Missing required fields:", flashcardData);
+          continue;
+        }
+
+        await axios.post("http://localhost:8000/flashcards/", flashcardData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
       }
 
-      // Proceed with the API call
-      const response = await axios.post(
-        "http://localhost:8000/flashcards/",
-        { flashcards: flashcardsData }, // Send the whole array
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("Flashcards saved successfully:", response.data);
+      showToast("success", "Flashcards saved successfully!");
+      console.log("All flashcards saved successfully!");
     } catch (error) {
       console.error("Error saving flashcards:", error.response?.data || error);
+      showToast(
+        "error",
+        error.response?.data?.message || "Error saving flashcards!"
+      );
     }
   };
 
@@ -97,18 +103,23 @@ const FlashcardEditor = () => {
     const updatedFlashcards = [...flashcards];
     updatedFlashcards[currentFlashcardIndex].question = e.target.value;
     setFlashcards(updatedFlashcards);
-    console.log(updatedFlashcards[currentFlashcardIndex].question); // Debug
   };
 
   const handleAnswerChange = (e) => {
     const updatedFlashcards = [...flashcards];
     updatedFlashcards[currentFlashcardIndex].answer = e.target.value;
     setFlashcards(updatedFlashcards);
-    console.log(updatedFlashcards[currentFlashcardIndex].answer); // Debug
   };
 
   return (
     <div className="editor-container">
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar
+        theme="colored"
+      />
+
       <div className="editor-header">
         <div className="back-button" onClick={() => window.history.back()}>
           <img src={backIcon} alt="Go Back" />
@@ -194,6 +205,7 @@ const FlashcardEditor = () => {
             value={flashcards[currentFlashcardIndex]?.question || ""}
             onChange={handleQuestionChange}
           ></textarea>
+
           {flashcards[currentFlashcardIndex]?.answer === "" ? (
             <button
               className="add-answer-button"

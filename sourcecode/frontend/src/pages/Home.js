@@ -22,6 +22,8 @@ const Home = () => {
 
   const handleAuth = async (e) => {
     e.preventDefault();
+    console.log("Sending request:", isRegister, formData);
+
     const result = await authenticateUser(isRegister, formData);
 
     if (!result.success) {

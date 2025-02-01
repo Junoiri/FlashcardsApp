@@ -26,12 +26,8 @@ export const authenticateUser = async (isRegister, formData) => {
       : { email, password };
 
     const response = await axios.post(endpoint, data);
-    const token = response.data.token;
 
-    localStorage.setItem("token", token);
-    const user = jwtDecode(token);
-    localStorage.setItem("user", JSON.stringify(user));
-
+    localStorage.setItem("token", response.data.token);
     return { success: true };
   } catch (error) {
     console.error("Authentication failed:", error);

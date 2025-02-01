@@ -1,7 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const flashcardController = require('../controllers/flashcardController');
-const authorize = require('../auth/authorize');
+const flashcardController = require("../controllers/flashcardController");
+const authorize = require("../auth/authorize");
 
 /**
  * @swagger
@@ -58,7 +58,7 @@ const authorize = require('../auth/authorize');
  *       500:
  *         description: Server error
  */
-router.get('/', authorize(), flashcardController.getAllFlashcards);
+router.get("/", authorize(), flashcardController.getAllFlashcards);
 
 /**
  * @swagger
@@ -89,7 +89,11 @@ router.get('/', authorize(), flashcardController.getAllFlashcards);
  *       500:
  *         description: Server error
  */
-router.get('/set/:setId', authorize(), flashcardController.getFlashcardsBySetId);
+router.get(
+  "/set/:setId",
+  authorize(),
+  flashcardController.getFlashcardsBySetId
+);
 
 /**
  * @swagger
@@ -118,7 +122,7 @@ router.get('/set/:setId', authorize(), flashcardController.getFlashcardsBySetId)
  *       500:
  *         description: Server error
  */
-router.get('/:id', authorize(), flashcardController.getFlashcardById);
+router.get("/:id", authorize(), flashcardController.getFlashcardById);
 
 /**
  * @swagger
@@ -162,7 +166,7 @@ router.get('/:id', authorize(), flashcardController.getFlashcardById);
  *       400:
  *         description: Bad request
  */
-router.post('/', authorize(), flashcardController.createFlashcard);
+router.post("/", authorize(), flashcardController.createFlashcard);
 
 /**
  * @swagger
@@ -209,7 +213,7 @@ router.post('/', authorize(), flashcardController.createFlashcard);
  *       500:
  *         description: Server error
  */
-router.patch('/:id', authorize(), flashcardController.updateFlashcard);
+router.patch("/:id", authorize(), flashcardController.updateFlashcard);
 
 /**
  * @swagger
@@ -236,6 +240,6 @@ router.patch('/:id', authorize(), flashcardController.updateFlashcard);
  *       500:
  *         description: Server error
  */
-router.delete('/:id', authorize(), flashcardController.deleteFlashcard);
+router.delete("/:id", authorize(), flashcardController.deleteFlashcard);
 
 module.exports = router;

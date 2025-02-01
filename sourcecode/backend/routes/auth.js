@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const authController = require('../controllers/authController');
+const authController = require("../controllers/authController");
 
 /**
  * @swagger
@@ -42,7 +42,7 @@ const authController = require('../controllers/authController');
  *                   type: string
  *                   example: "Invalid email or password"
  */
-router.post('/login', authController.login);
+router.post("/login", authController.login);
 
 /**
  * @swagger
@@ -83,6 +83,6 @@ router.post('/login', authController.login);
  *                   type: string
  *                   example: "Email already in use"
  */
-router.post('/register', authController.register);
+router.post("/register", authController.register);
 
 module.exports = router;

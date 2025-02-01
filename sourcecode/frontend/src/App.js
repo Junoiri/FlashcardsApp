@@ -23,6 +23,10 @@ function App() {
         <Route path="/editor" element={<FlashcardEditor />} />
         <Route path="/learn" element={<Learn />} />
         <Route path="/preview" element={<FlashcardSetPreview />} />
+        <Route
+          path="/preview/:flashcardSetId"
+          element={<FlashcardSetPreview />}
+        />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </Router>

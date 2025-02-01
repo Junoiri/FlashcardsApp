@@ -1,12 +1,11 @@
-const User = require('../models/user');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken'); 
-
+const User = require("../models/user");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 exports.register = async ({ username, email, password, role }) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    throw new Error('User with this email already exists');
+    throw new Error("User with this email already exists");
   }
 
   const saltRounds = 10;
@@ -16,22 +15,21 @@ exports.register = async ({ username, email, password, role }) => {
     username,
     email,
     passwordHash,
-    role: role || 'user', 
+    role: role || "user",
   });
 
   return newUser;
 };
 
-
 exports.login = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) {
-    throw new Error('Invalid email or password');
+    throw new Error("Invalid email or password");
   }
 
   const isMatch = await bcrypt.compare(password, user.passwordHash);
   if (!isMatch) {
-    throw new Error('Invalid email or password');
+    throw new Error("Invalid email or password");
   }
 
   const token = jwt.sign(
@@ -41,10 +39,9 @@ exports.login = async (email, password) => {
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: '1h',
+      expiresIn: "1h",
     }
   );
 
   return token;
 };
-

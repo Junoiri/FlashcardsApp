@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Library.css";
+import { useNavigate } from "react-router-dom";
 import homeIcon from "../assets/home.png";
 import libraryIcon from "../assets/music-library.png";
 import settingsIcon from "../assets/settings.png";
@@ -10,6 +11,7 @@ import axios from "axios";
 import { getCurrentUser } from "../services/Authentication";
 
 const Library = () => {
+  const navigate = useNavigate();
   const [flashcardSets, setFlashcardsSets] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [sortOption, setSortOption] = useState("dateCreated");
@@ -118,8 +120,9 @@ const Library = () => {
       );
     }
   };
+  /*
+   const deleteFlashcardSets = async () => {
 
-  /* const deleteFlashcardSets = async () => {
     try {
       const token = localStorage.getItem("token");
       console.log("Token Sent in Request:", token);
@@ -142,8 +145,11 @@ const Library = () => {
         error.response?.data || error
       );
     }
+  };*/
+
+  const handleFlashcardClick = (flashcardSetId) => {
+    navigate(`/preview/${flashcardSetId}`);
   };
-*/
   const categories = [
     "All",
     "Math",
@@ -243,7 +249,7 @@ const Library = () => {
                   category={card.category}
                   numFlashcards={card.flashcards}
                   author={card.userId}
-                  onClick={() => console.log(`Navigating to ${card.title}`)}
+                  onClick={() => handleFlashcardClick(card.id)}
                 />
               ))}
             </div>

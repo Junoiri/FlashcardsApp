@@ -88,7 +88,6 @@ router.get("/", authorize("admin"), userController.getAllUsers);
  *         description: Server error
  */
 router.get("/:id", authorize(), userController.getUserById);
-
 /**
  * @swagger
  * /users:

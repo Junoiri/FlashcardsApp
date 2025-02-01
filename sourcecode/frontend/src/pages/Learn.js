@@ -1,66 +1,121 @@
-import React, { useState } from "react";
-import "../styles/Learn.css";
-import backIcon from "../assets/back.png";
-import sadIcon from "../assets/sad.png";
-import midIcon from "../assets/happy.png";
-import smileyIcon from "../assets/smiley.png";
+// PreviewPage.js
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "../styles/PreviewPage.css";
+import backIcon from "../assets/back1.png";
+import { useNavigate, useParams } from "react-router-dom";
 
-const Learn = () => {
-  const [showAnswer, setShowAnswer] = useState(false);
+const PreviewPage = () => {
+  const { flashcardSetId } = useParams();
+  const navigate = useNavigate();
+  const [flashcards, setFlashcards] = useState(null);
+  const [error, setError] = useState(null);
+  const [notification, setNotification] = useState(""); // Add state for notification
 
-  const flashcard = {
-    question: "What is the capital of France?",
-    answer: "The capital of France is Paris.",
+  const flashcardSetTitle = localStorage.getItem("flashcardSetTitle");
+
+  useEffect(() => {
+    if (!flashcardSetId) {
+      console.error("No flashcard set ID provided.");
+      return;
+    }
+
+    const fetchFlashcardSet = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:8000/flashcards/${flashcardSetId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setFlashcards(response.data);
+      } catch (error) {
+        console.error("Error fetching flashcards:", error);
+        if (error.response && error.response.status === 404) {
+          setError("Flashcard set not found.");
+        } else {
+          setError("An error occurred while fetching the flashcards.");
+        }
+      }
+    };
+
+    fetchFlashcardSet();
+  }, [flashcardSetId]);
+
+  const handleBackClick = () => {
+    navigate("/library");
   };
 
-  const toggleShowAnswer = () => {
-    setShowAnswer((prev) => !prev);
+  const handleLearnClick = () => {
+    // Check if there are flashcards
+    if (
+      flashcards &&
+      flashcards.flashcards &&
+      flashcards.flashcards.length > 0
+    ) {
+      // Pass the flashcards data as state when navigating to /learn
+      navigate("/learn", { state: { flashcards } });
+    } else {
+      // Show notification if no flashcards are available
+      setNotification("Nothing to learn yet");
+    }
   };
 
   return (
-    <div className="learn-container">
-      <div className="learn-header">
-        <div className="back-button" onClick={() => window.history.back()}>
-          <img src={backIcon} alt="Go Back" />
-        </div>
-        <h1 className="learn-title">Revision: Geography</h1>
+    <div className="preview-container">
+      <div className="preview-header">
+        <button className="back-button" onClick={handleBackClick}>
+          <img src={backIcon} alt="Back" className="back-icon" />
+        </button>
+        <h1 className="preview-title">Flashcard Set: {flashcardSetTitle}</h1>
+        <button className="start-learning-button" onClick={handleLearnClick}>
+          Start Learning
+        </button>
       </div>
+      {notification && <div className="notification">{notification}</div>}{" "}
+      {/* Display the notification */}
+      <div className="content-container">
+        {error ? (
+          <div className="error-message">{error}</div>
+        ) : flashcards === null ? (
+          <div>Loading...</div>
+        ) : (
+          <>
+            {flashcards.flashcards && flashcards.flashcards.length === 0 ? (
+              <div className="empty-set-message">
+                This flashcard set is empty.
+              </div>
+            ) : (
+              <div className="flashcard-grid">
+                {flashcards.flashcards.map((flashcard, index) => (
+                  <div key={index} className="flashcard">
+                    <p className="flashcard-question">{flashcard.question}</p>
+                    <hr />
+                    <p className="flashcard-answer">{flashcard.answer}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
 
-      <div className="progress-bar">
-        <div className="progress-step"></div>
-        <div className="progress-step"></div>
-        <div className="progress-step"></div>
-        <div className="progress-step"></div>
-        <div className="progress-step"></div>
-      </div>
-
-      <div className="flashcard-container">
-        <div className="flashcard">
-          <div className="flashcard-content">
-            {showAnswer ? flashcard.answer : flashcard.question}
+        <div className="progress-container">
+          <h2 className="progress-title">Your Progress</h2>
+          <div className="progress-circle">
+            <p>0%</p>
           </div>
-          <button className="show-answer-button" onClick={toggleShowAnswer}>
-            {showAnswer ? "Back to question" : "Show answer"}
-          </button>
+          <div className="progress-info">
+            <span>🟢 Learned: 0%</span>
+            <span>🟡 To be reviewed: 0%</span>
+            <span>⚫ Not learned: 100%</span>
+          </div>
         </div>
-      </div>
-
-      <div className="options-container">
-        <button className="option-button option-bad">
-          <img src={sadIcon} alt="Bad" />
-          Bad
-        </button>
-        <button className="option-button option-ok">
-          <img src={midIcon} alt="OK" />
-          OK
-        </button>
-        <button className="option-button option-good">
-          <img src={smileyIcon} alt="Good" />
-          Good
-        </button>
       </div>
     </div>
   );
 };
 
-export default Learn;
+export default PreviewPage;

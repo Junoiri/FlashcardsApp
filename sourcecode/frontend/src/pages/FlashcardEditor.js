@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/FlashcardEditor.css";
 import backIcon from "../assets/back.png";
 import imageIcon from "../assets/imageIcon.png";
+import axios from "axios";
 
 const FlashcardEditor = () => {
   const [boldActive, setBoldActive] = useState(false);
@@ -11,6 +12,10 @@ const FlashcardEditor = () => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [flashcards, setFlashcards] = useState([{ question: "", answer: "" }]);
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
+  const [flashcardSetTitle] = useState(
+    localStorage.getItem("flashcardSetTitle")
+  );
+  const [flashcardSetId] = useState(localStorage.getItem("flashcardSetId"));
 
   const toggleBold = () => setBoldActive((prev) => !prev);
   const toggleItalic = () => setItalicActive((prev) => !prev);
@@ -37,41 +42,80 @@ const FlashcardEditor = () => {
     setUploadedImage(null);
   };
 
-  // Adding a new flashcard
   const addNewFlashcard = () => {
     setFlashcards((prev) => [...prev, { question: "", answer: "" }]);
     setCurrentFlashcardIndex(flashcards.length);
   };
 
-  // Save button functionality
-  const handleSave = () => {
-    console.log("Flashcards saved:", flashcards);
+  const handleSave = async () => {
+    try {
+      // Log the entire flashcards array to inspect them
+      console.log("Flashcards before saving:", flashcards);
+
+      const flashcardsData = flashcards.map((flashcard) => ({
+        setId: flashcardSetId,
+        term: flashcard.question,
+        definition: flashcard.answer,
+      }));
+
+      // Log the mapped flashcards data before sending
+      console.log("Mapped flashcards data:", flashcardsData);
+
+      // Check if the flashcards are valid (no empty fields)
+      const invalidFlashcards = flashcardsData.filter(
+        (flashcard) =>
+          !flashcard.setId || !flashcard.term || !flashcard.definition
+      );
+      const token = localStorage.getItem("token");
+
+      if (invalidFlashcards.length > 0) {
+        console.error(
+          "Some flashcards are missing required fields:",
+          invalidFlashcards
+        );
+        return;
+      }
+
+      // Proceed with the API call
+      const response = await axios.post(
+        "http://localhost:8000/flashcards/",
+        { flashcards: flashcardsData }, // Send the whole array
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Flashcards saved successfully:", response.data);
+    } catch (error) {
+      console.error("Error saving flashcards:", error.response?.data || error);
+    }
   };
 
-  // Question and Answer handlers
   const handleQuestionChange = (e) => {
     const updatedFlashcards = [...flashcards];
     updatedFlashcards[currentFlashcardIndex].question = e.target.value;
     setFlashcards(updatedFlashcards);
+    console.log(updatedFlashcards[currentFlashcardIndex].question); // Debug
   };
 
   const handleAnswerChange = (e) => {
     const updatedFlashcards = [...flashcards];
     updatedFlashcards[currentFlashcardIndex].answer = e.target.value;
     setFlashcards(updatedFlashcards);
+    console.log(updatedFlashcards[currentFlashcardIndex].answer); // Debug
   };
 
   return (
     <div className="editor-container">
-      {/* Header */}
       <div className="editor-header">
         <div className="back-button" onClick={() => window.history.back()}>
           <img src={backIcon} alt="Go Back" />
         </div>
-        <h1 className="editor-title">Test set</h1>
+        <h1 className="editor-title">{flashcardSetTitle}</h1>
       </div>
 
-      {/* Flashcard Preview Menu */}
       <div className="flashcard-list-container">
         <button className="new-flashcard-button" onClick={addNewFlashcard}>
           + New flashcard
@@ -91,9 +135,7 @@ const FlashcardEditor = () => {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="editor-main">
-        {/* Flashcard Editor */}
         <div className="flashcard-editor">
           <div className="editor-toolbar">
             <button
@@ -132,7 +174,6 @@ const FlashcardEditor = () => {
             />
           </div>
 
-          {/* Image Preview */}
           {uploadedImage && (
             <div className="image-preview-container">
               <img
@@ -146,7 +187,6 @@ const FlashcardEditor = () => {
             </div>
           )}
 
-          {/* Text Fields */}
           <textarea
             className="editor-textarea"
             placeholder="Write your question here..."
@@ -175,7 +215,6 @@ const FlashcardEditor = () => {
         </div>
       </div>
 
-      {/* Save Button */}
       <div className="save-button-container">
         <button className="save-button" onClick={handleSave}>
           Save

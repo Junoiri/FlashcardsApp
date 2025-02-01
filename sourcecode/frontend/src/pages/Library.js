@@ -120,36 +120,13 @@ const Library = () => {
       );
     }
   };
-  /*
-   const deleteFlashcardSets = async () => {
 
-    try {
-      const token = localStorage.getItem("token");
-      console.log("Token Sent in Request:", token);
+  const handleFlashcardClick = (flashcardSetId, flashcardSetTitle) => {
+    localStorage.setItem("flashcardSetTitle", flashcardSetTitle);
 
-      const response = await axios.delete(
-        `http://localhost:8000/flashcardsets`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("API Response:", response.data);
-
-      deleteFlashcardSets();
-    } catch (error) {
-      console.error(
-        "Error fetching flashcards:",
-        error.response?.data || error
-      );
-    }
-  };*/
-
-  const handleFlashcardClick = (flashcardSetId) => {
     navigate(`/preview/${flashcardSetId}`);
   };
+
   const categories = [
     "All",
     "Math",
@@ -249,7 +226,9 @@ const Library = () => {
                   category={card.category}
                   numFlashcards={card.flashcards}
                   author={card.userId}
-                  onClick={() => handleFlashcardClick(card.id)}
+                  onClick={() => {
+                    handleFlashcardClick(card._id, card.title);
+                  }}
                 />
               ))}
             </div>

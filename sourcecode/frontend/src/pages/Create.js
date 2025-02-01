@@ -20,7 +20,10 @@ const Create = () => {
   const [extractedText, setExtractedText] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
+  const [flashcardSetTitle] = useState(
+    localStorage.getItem("flashcardSetTitle")
+  );
+  const [flashcardSetId] = useState(localStorage.getItem("flashcardSetId"));
   const handleBackButtonClick = () => setShowBackPopup(true);
   const confirmBackNavigation = () => navigate(-1);
   const cancelBackNavigation = () => setShowBackPopup(false);
@@ -44,7 +47,7 @@ const Create = () => {
     setError(null);
 
     const formData = new FormData();
-    formData.append("pdfFile", uploadedFiles[0]); // Only handling one file for now
+    formData.append("pdfFile", uploadedFiles[0]);
 
     try {
       const response = await axios.post(
@@ -63,7 +66,13 @@ const Create = () => {
     setLoading(false);
   };
 
-  const navigateToEditor = () => navigate("/editor");
+  const handleEditorClick = (flashcardSetId, flashcardSetTitle) => {
+    localStorage.setItem("flashcardSetId", flashcardSetId);
+    localStorage.setItem("flashcardSetTitle", flashcardSetTitle);
+
+    navigate(`/editor`);
+  };
+
   const navigateTo = (path) => navigate(path);
 
   return (
@@ -96,7 +105,7 @@ const Create = () => {
 
         <div className="content-placeholder">
           <div className="transparent-rectangle">
-            <h1 className="create-title">Test Set</h1>
+            <h1 className="create-title"> {flashcardSetTitle}</h1>
             <h2 className="create-subtitle">
               Get started by adding study material
             </h2>
@@ -115,7 +124,12 @@ const Create = () => {
                 <img src={rightArrowIcon} alt="Arrow" className="right-arrow" />
               </div>
 
-              <div className="create-option" onClick={navigateToEditor}>
+              <div
+                className="create-option"
+                onClick={() =>
+                  handleEditorClick(flashcardSetId, flashcardSetTitle)
+                }
+              >
                 <img
                   src={flashCardIcon}
                   alt="Manual Flashcard"
@@ -186,7 +200,7 @@ const Create = () => {
                 <h3>Extracted Text</h3>
                 <pre>{extractedText}</pre>
                 <button
-                  onClick={() => navigateToEditor()}
+                  onClick={() => handleEditorClick()}
                   className="popup-confirm"
                 >
                   Proceed to Flashcards

@@ -46,7 +46,24 @@ const Library = () => {
           ? response.data.filter((set) => set.userId === user.id)
           : [];
 
-        setFlashcardsSets(userFlashcardSets);
+        const updatedSets = userFlashcardSets.map(async (set) => {
+          const flashcardsResponse = await axios.get(
+            `http://localhost:8000/flashcards?flashcardSetId=${set._id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          const flashcardsLength = flashcardsResponse.data.length;
+          return {
+            ...set,
+            flashcardsLength,
+          };
+        });
+        const updatedFlashcardSets = await Promise.all(updatedSets);
+        setFlashcardsSets(updatedFlashcardSets);
       } catch (error) {
         console.error(
           "Error fetching flashcards:",
@@ -279,7 +296,7 @@ const Library = () => {
                   key={index}
                   setName={card.title}
                   category={card.category}
-                  numFlashcards={card.flashcards ? card.flashcards.length : 0}
+                  numFlashcards={card.flashcardsLength}
                   author={username}
                   onClick={() => clickFlashcardSet(card._id)}
                   onDelete={deleteFlashcardSet}

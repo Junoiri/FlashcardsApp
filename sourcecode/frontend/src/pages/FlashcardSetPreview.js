@@ -17,6 +17,7 @@ const PreviewPage = () => {
   const [flashcardSetTitle] = useState(
     localStorage.getItem("flashcardSetTitle")
   );
+  const [flashcardsLength, setFlashcardsLength] = useState();
 
   useEffect(() => {
     if (!flashcardSetId) {
@@ -36,12 +37,13 @@ const PreviewPage = () => {
 
         console.log("API Response:", response.data);
         setFlashcards(response.data);
+        setFlashcardsLength(response.data.length);
+        console.log(response.data.length);
       } catch (error) {
         console.error("Error fetching flashcards:", error);
         setError("An error occurred while fetching the flashcards.");
       }
     };
-
     fetchFlashcardSet();
   }, [flashcardSetId]);
 
@@ -56,12 +58,8 @@ const PreviewPage = () => {
   };
 
   const handleLearnClick = () => {
-    if (
-      flashcards &&
-      flashcards.flashcards &&
-      flashcards.flashcards.length > 0
-    ) {
-      navigate("/learn", { state: { flashcards } });
+    if (flashcards && flashcards.length > 0) {
+      navigate("/learn", { state: { flashcardSetId } });
     } else {
       setShowModal(true);
     }
@@ -149,7 +147,7 @@ const PreviewPage = () => {
           <div>Loading...</div>
         ) : (
           <>
-            {flashcards.flashcards && flashcards.flashcards.length === 0 ? (
+            {flashcards.flashcards && flashcardsLength === 0 ? (
               <div className="empty-set-message">
                 This flashcard set is empty.
               </div>

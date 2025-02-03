@@ -1,18 +1,20 @@
-// PreviewPage.js
 import React, { useState, useEffect } from "react";
+import "../styles/Learn.css";
+import backIcon from "../assets/back.png";
+import sadIcon from "../assets/sad.png";
+import midIcon from "../assets/happy.png";
+import smileyIcon from "../assets/smiley.png";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../styles/PreviewPage.css";
-import backIcon from "../assets/back1.png";
-import { useNavigate, useParams } from "react-router-dom";
 
-const PreviewPage = () => {
-  const { flashcardSetId } = useParams();
-  const navigate = useNavigate();
-  const [flashcards, setFlashcards] = useState(null);
+const Learn = () => {
+  const { state } = useLocation();
+  const flashcardSetId = state?.flashcardSetId;
+  const [flashcards, setFlashcards] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [showAnswer, setShowAnswer] = useState(false);
   const [error, setError] = useState(null);
-  const [notification, setNotification] = useState(""); // Add state for notification
-
-  const flashcardSetTitle = localStorage.getItem("flashcardSetTitle");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!flashcardSetId) {
@@ -24,98 +26,93 @@ const PreviewPage = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:8000/flashcards/${flashcardSetId}`,
+          `http://localhost:8000/flashcards/set/${flashcardSetId}`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
         setFlashcards(response.data);
       } catch (error) {
         console.error("Error fetching flashcards:", error);
-        if (error.response && error.response.status === 404) {
-          setError("Flashcard set not found.");
-        } else {
-          setError("An error occurred while fetching the flashcards.");
-        }
+        setError("An error occurred while fetching the flashcards.");
       }
     };
 
     fetchFlashcardSet();
   }, [flashcardSetId]);
 
+  const toggleShowAnswer = () => {
+    setShowAnswer((prev) => !prev);
+  };
+
+  const handleNextFlashcard = () => {
+    setShowAnswer(false);
+    if (currentIndex < flashcards.length - 1) {
+      setCurrentIndex((prevIndex) => prevIndex + 1);
+    } else {
+      setCurrentIndex(0);
+    }
+  };
+
   const handleBackClick = () => {
     navigate("/library");
   };
 
-  const handleLearnClick = () => {
-    // Check if there are flashcards
-    if (
-      flashcards &&
-      flashcards.flashcards &&
-      flashcards.flashcards.length > 0
-    ) {
-      // Pass the flashcards data as state when navigating to /learn
-      navigate("/learn", { state: { flashcards } });
-    } else {
-      // Show notification if no flashcards are available
-      setNotification("Nothing to learn yet");
-    }
-  };
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (flashcards.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+  const currentFlashcard = flashcards[currentIndex];
 
   return (
-    <div className="preview-container">
-      <div className="preview-header">
-        <button className="back-button" onClick={handleBackClick}>
-          <img src={backIcon} alt="Back" className="back-icon" />
-        </button>
-        <h1 className="preview-title">Flashcard Set: {flashcardSetTitle}</h1>
-        <button className="start-learning-button" onClick={handleLearnClick}>
-          Start Learning
-        </button>
-      </div>
-      {notification && <div className="notification">{notification}</div>}{" "}
-      {/* Display the notification */}
-      <div className="content-container">
-        {error ? (
-          <div className="error-message">{error}</div>
-        ) : flashcards === null ? (
-          <div>Loading...</div>
-        ) : (
-          <>
-            {flashcards.flashcards && flashcards.flashcards.length === 0 ? (
-              <div className="empty-set-message">
-                This flashcard set is empty.
-              </div>
-            ) : (
-              <div className="flashcard-grid">
-                {flashcards.flashcards.map((flashcard, index) => (
-                  <div key={index} className="flashcard">
-                    <p className="flashcard-question">{flashcard.question}</p>
-                    <hr />
-                    <p className="flashcard-answer">{flashcard.answer}</p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-
-        <div className="progress-container">
-          <h2 className="progress-title">Your Progress</h2>
-          <div className="progress-circle">
-            <p>0%</p>
-          </div>
-          <div className="progress-info">
-            <span>🟢 Learned: 0%</span>
-            <span>🟡 To be reviewed: 0%</span>
-            <span>⚫ Not learned: 100%</span>
-          </div>
+    <div className="learn-container">
+      <div className="learn-header">
+        <div className="back-button" onClick={handleBackClick}>
+          <img src={backIcon} alt="Go Back" />
         </div>
+        <h1 className="learn-title">Learn Flashcards</h1>
+      </div>
+
+      <div className="flashcard-container">
+        <div className="flashcard">
+          <div className="flashcard-content">
+            {showAnswer ? currentFlashcard.definition : currentFlashcard.term}
+          </div>
+          <button className="show-answer-button" onClick={toggleShowAnswer}>
+            {showAnswer ? "Back to question" : "Show answer"}
+          </button>
+        </div>
+      </div>
+
+      <div className="options-container">
+        <button
+          className="option-button option-bad"
+          onClick={handleNextFlashcard}
+        >
+          <img src={sadIcon} alt="Bad" />
+          Bad
+        </button>
+        <button
+          className="option-button option-ok"
+          onClick={handleNextFlashcard}
+        >
+          <img src={midIcon} alt="OK" />
+          OK
+        </button>
+        <button
+          className="option-button option-good"
+          onClick={handleNextFlashcard}
+        >
+          <img src={smileyIcon} alt="Good" />
+          Good
+        </button>
       </div>
     </div>
   );
 };
 
-export default PreviewPage;
+export default Learn;

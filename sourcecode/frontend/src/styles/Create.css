@@ -1,9 +1,11 @@
+/* General styles for the body */
 body {
   margin: 0;
   font-family: "Merriweather", serif;
   overflow-y: auto;
 }
 
+/* Container for the create page */
 .create-container {
   display: flex;
   height: auto;
@@ -15,12 +17,14 @@ body {
   background-repeat: no-repeat;
 }
 
+/* Responsive background image for smaller screens */
 @media (max-width: 768px) {
   .create-container {
     background-image: url("../assets/mobile-bg2.jpg");
   }
 }
 
+/* Sidebar styles */
 .create-sidebar {
   background-color: #6c757d;
   color: white;
@@ -62,6 +66,7 @@ body {
   color: #faedcd;
 }
 
+/* Responsive sidebar styles for smaller screens */
 @media (max-width: 768px) {
   .create-sidebar {
     padding: 10px 10px;
@@ -82,6 +87,7 @@ body {
   }
 }
 
+/* Main content area styles */
 .create-main {
   flex: 1;
   display: flex;
@@ -89,11 +95,13 @@ body {
   justify-content: center;
   position: relative;
 }
+
 .create-main.dimmed {
-  filter: blur(2px); /* Slight blur effect */
-  pointer-events: none; /* Prevent interaction with main content */
+  filter: blur(2px);
+  pointer-events: none;
 }
 
+/* Placeholder for main content */
 .content-placeholder {
   display: flex;
   align-items: center;
@@ -102,6 +110,7 @@ body {
   width: 100%;
 }
 
+/* Back button styles */
 .back-button {
   position: absolute;
   top: 20px;
@@ -112,6 +121,7 @@ body {
   z-index: 10;
 }
 
+/* Transparent rectangle container */
 .transparent-rectangle {
   background-color: rgba(255, 255, 255, 0.25);
   margin: 0;
@@ -126,18 +136,21 @@ body {
   align-items: center;
 }
 
+/* Title styles */
 .create-title {
   font-size: 2rem;
   color: #333;
   margin-bottom: 10px;
 }
 
+/* Subtitle styles */
 .create-subtitle {
   font-size: 1.2rem;
   color: #595d4d;
   margin-bottom: 20px;
 }
 
+/* Options container styles */
 .create-options {
   display: flex;
   gap: 20px;
@@ -145,17 +158,18 @@ body {
   justify-content: center;
 }
 
+/* Individual option styles */
 .create-option {
-  background-color: #6c757d; /* Match sidebar color */
+  background-color: #6c757d;
   color: #fff;
   border-radius: 10px;
   padding: 20px;
   text-align: center;
   cursor: pointer;
-  max-width: 400px; /* Increased width for better fit */
+  max-width: 400px;
   flex: 1;
   display: flex;
-  flex-direction: row; /* Adjusted layout to row */
+  flex-direction: row;
   align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -167,12 +181,14 @@ body {
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Option icon styles */
 .option-icon {
   width: 60px;
   height: 60px;
-  margin-right: 20px; /* Add spacing between icon and text */
+  margin-right: 20px;
 }
 
+/* Right arrow icon styles */
 .right-arrow {
   position: absolute;
   right: 20px;
@@ -180,6 +196,7 @@ body {
   height: 20px;
 }
 
+/* Recommended label styles */
 .recommended-label {
   background-color: #28a745;
   color: white;
@@ -189,17 +206,20 @@ body {
   margin-bottom: 10px;
 }
 
+/* Option content styles */
 .create-option-content h2 {
   font-size: 1.2rem;
   margin-bottom: 8px;
-  text-align: left; /* Align content to the left */
+  text-align: left;
 }
 
 .create-option-content p {
   font-size: 0.9rem;
   color: #ccc;
-  text-align: left; /* Align content to the left */
+  text-align: left;
 }
+
+/* Popup overlay styles */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -210,9 +230,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000; /* Keep the overlay above other content but not the sidebar */
+  z-index: 1000;
 }
 
+/* Popup content styles */
 .popup-content {
   background-color: #ffffff;
   padding: 20px;
@@ -235,6 +256,7 @@ body {
   margin-bottom: 20px;
 }
 
+/* Popup actions styles */
 .popup-actions {
   display: flex;
   justify-content: flex-end;
@@ -268,6 +290,8 @@ body {
 .popup-cancel:hover {
   background-color: #faedcd;
 }
+
+/* File upload area styles */
 .file-upload-area {
   display: flex;
   flex-direction: column;
@@ -285,6 +309,7 @@ body {
   border-color: #faedcd;
 }
 
+/* Upload label styles */
 .upload-label {
   display: flex;
   align-items: center;
@@ -304,7 +329,7 @@ body {
 }
 
 input[type="file"] {
-  display: none; /* Hide the default file input */
+  display: none;
 }
 
 .popup-content p {
@@ -312,6 +337,8 @@ input[type="file"] {
   color: #595d4d;
   font-size: 1rem;
 }
+
+/* File preview list styles */
 .file-preview-list {
   list-style: none;
   padding: 0;

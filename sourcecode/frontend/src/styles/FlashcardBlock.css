@@ -1,3 +1,4 @@
+/* Styles for the flashcard block */
 .flashcard-block {
   background-color: #fefae0;
   border-radius: 8px;
@@ -13,16 +14,19 @@
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* Header of the flashcard */
 .flashcard-header {
   height: 8px;
   background-color: #ccd5ae;
 }
 
+/* Content of the flashcard */
 .flashcard-content {
   padding: 16px;
   text-align: left;
 }
 
+/* Flashcard set name */
 .set-name {
   font-size: 1.2rem;
   font-weight: bold;
@@ -30,23 +34,27 @@
   color: #333;
 }
 
+/* Flashcard category */
 .category {
   font-size: 0.9rem;
   color: #666;
   margin-bottom: 8px;
 }
 
+/* Number of flashcards */
 .num-flashcards {
   font-size: 0.9rem;
   color: #444;
   margin-bottom: 12px;
 }
 
+/* Author of the flashcard set */
 .author {
   font-size: 0.8rem;
   color: #888;
 }
 
+/* Actions for the flashcard */
 .flashcard-actions {
   display: flex;
   justify-content: flex-end;
@@ -54,6 +62,7 @@
   padding: 8px 16px;
 }
 
+/* Edit and delete button styles */
 .edit-button,
 .delete-button {
   background: none;
@@ -73,6 +82,8 @@
 .delete-button:hover {
   transform: scale(1.1);
 }
+
+/* Popup overlay styles */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -86,6 +97,7 @@
   z-index: 10;
 }
 
+/* Popup content styles */
 .popup-content {
   background: #fefae0;
   padding: 20px;
@@ -102,6 +114,7 @@
   color: #333;
 }
 
+/* Popup actions styles */
 .popup-actions {
   display: flex;
   justify-content: space-between;
@@ -137,6 +150,8 @@
 .popup-cancel:hover {
   background-color: #a8b68e;
 }
+
+/* Additional popup overlay styles */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -149,6 +164,7 @@
   align-items: center;
 }
 
+/* Additional popup content styles */
 .popup-content {
   background: white;
   padding: 20px;
@@ -157,6 +173,7 @@
   text-align: center;
 }
 
+/* Popup input styles */
 .popup-input {
   margin: 10px 0;
 }
@@ -166,6 +183,7 @@
   padding: 8px;
 }
 
+/* Additional popup actions styles */
 .popup-actions {
   margin-top: 10px;
 }

@@ -11,6 +11,12 @@ import flashCardIcon from "../assets/flash-card.png";
 import rightArrowIcon from "../assets/right.png";
 import uploadIcon from "../assets/upload.png";
 
+/**
+ * Create component allows users to create flashcards either manually or by uploading a PDF file.
+ * It provides options to navigate to different sections of the application and handles file uploads for AI-generated flashcards.
+ *
+ * @returns {JSX.Element} The rendered Create component.
+ */
 const Create = () => {
   const navigate = useNavigate();
   const [showBackPopup, setShowBackPopup] = useState(false);
@@ -24,21 +30,55 @@ const Create = () => {
   const flashcardSetTitle = localStorage.getItem("flashcardSetTitle");
   const flashcardSetId = localStorage.getItem("flashcardSetId");
 
+  /**
+   * Shows the back navigation confirmation popup.
+   */
   const handleBackButtonClick = () => setShowBackPopup(true);
+
+  /**
+   * Confirms the back navigation and navigates to the previous page.
+   */
   const confirmBackNavigation = () => navigate(-1);
+
+  /**
+   * Cancels the back navigation and hides the confirmation popup.
+   */
   const cancelBackNavigation = () => setShowBackPopup(false);
+
+  /**
+   * Shows the upload popup for AI-generated flashcards.
+   */
   const handleAIOptionClick = () => setShowUploadPopup(true);
+
+  /**
+   * Closes the upload popup.
+   */
   const closeUploadPopup = () => setShowUploadPopup(false);
 
+  /**
+   * Handles file upload and updates the uploaded files state.
+   *
+   * @param {Event} e - The file input change event.
+   */
   const handleFileUpload = (e) => {
     const files = Array.from(e.target.files);
     setUploadedFiles(files);
   };
 
+  /**
+   * Removes a file from the uploaded files list.
+   *
+   * @param {number} index - The index of the file to remove.
+   */
   const removeFile = (index) => {
     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
+  /**
+   * Uploads a PDF file to the server and generates flashcards using AI.
+   *
+   * @param {File} file - The PDF file to upload.
+   */
   const handleUploadPDF = async (file) => {
     if (!flashcardSetId) {
       setError("Flashcard Set ID is missing. Please try again.");
@@ -70,15 +110,27 @@ const Create = () => {
     }
   };
 
+  /**
+   * Handles the done action for the upload popup.
+   * Uploads the first file in the uploaded files list.
+   */
   const handleDone = () => {
     if (uploadedFiles.length === 0) return;
     handleUploadPDF(uploadedFiles[0]);
   };
 
+  /**
+   * Navigates to the flashcard editor page.
+   */
   const handleEditorClick = () => {
     navigate("/editor");
   };
 
+  /**
+   * Navigates to the specified path.
+   *
+   * @param {string} path - The path to navigate to.
+   */
   const navigateTo = (path) => navigate(path);
 
   return (

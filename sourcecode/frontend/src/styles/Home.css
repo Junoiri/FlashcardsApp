@@ -1,21 +1,18 @@
+/* General styles for the body */
 body {
   margin: 0;
   font-family: "Merriweather", serif;
   overflow-y: auto;
 }
 
-/**
- * Home container
- */
+/* Home container */
 .home-container {
   display: flex;
   flex-direction: column;
   height: auto;
 }
 
-/**
- * Section 1: Main Content
- */
+/* Main Content */
 .main-content {
   flex-grow: 1;
   height: 100vh;
@@ -60,9 +57,7 @@ body {
   background-color: #e9edc9;
 }
 
-/**
- * Section 2: About Section
- */
+/* About */
 .about-section {
   height: 100vh;
   background-color: #fefae0;
@@ -89,9 +84,7 @@ body {
   max-width: 800px;
 }
 
-/**
- * Section 3: Features Section
- */
+/* Features */
 .features-section {
   height: 100vh;
   background-color: #e9edc9;
@@ -162,9 +155,7 @@ body {
   background-color: #ccd5ae;
 }
 
-/**
- * Mobile-specific adjustments
- */
+/* Mobile-specific adjustments */
 @media (max-width: 768px) {
   .main-content,
   .about-section,
@@ -200,9 +191,7 @@ body {
   }
 }
 
-/**
- * Navbar
- */
+/* Navbar */
 nav {
   background-color: #ccd5ae;
   color: #ffffff;
@@ -219,9 +208,7 @@ nav .text-faedcd {
   color: #faedcd;
 }
 
-/**
- * Modal backdrop styling
- */
+/* Modal backdrop styling */
 .modal-backdrop {
   position: fixed;
   top: 0;
@@ -235,9 +222,7 @@ nav .text-faedcd {
   z-index: 20;
 }
 
-/**
- * Modal container styling
- */
+/* Modal container styling */
 .modal-container {
   background-color: #e9edc9;
   padding: 2rem;
@@ -258,9 +243,7 @@ nav .text-faedcd {
   color: #666;
 }
 
-/**
- * Form input styling
- */
+/* Form input styling */
 .form-input {
   width: 100%;
   padding: 0.5rem;
@@ -284,9 +267,7 @@ nav .text-faedcd {
   box-shadow: 0 0 4px rgba(233, 237, 201, 0.5);
 }
 
-/**
- * Buttons
- */
+/* Buttons */
 button {
   cursor: pointer;
   font-size: 1rem;
@@ -309,9 +290,7 @@ button.bg-e9edc9 {
   color: #9ea780;
 }
 
-/**
- * Responsive modal
- */
+/* Responsive modal */
 @media (max-width: 768px) {
   .modal-container {
     width: 100%;
@@ -319,9 +298,7 @@ button.bg-e9edc9 {
   }
 }
 
-/**
- * Scroll Button
- */
+/* Scroll Button */
 .scroll-button {
   position: absolute;
   bottom: 3rem;
@@ -340,17 +317,13 @@ button.bg-e9edc9 {
   box-shadow: none;
 }
 
-/**
- * First Section Scroll Button Adjustment
- */
+/* First Section Scroll Button Adjustment */
 .main-content .scroll-button {
   bottom: 6rem;
   background-color: transparent !important;
 }
 
-/**
- * Scroll Button for Last Section
- */
+/* Scroll Button for Last */
 .scroll-to-top-button {
   position: absolute;
   bottom: 3rem;
@@ -370,9 +343,7 @@ button.bg-e9edc9 {
   z-index: 10;
 }
 
-/**
- * Adjust position for mobile screens
- */
+/* Adjust position for mobile screens */
 @media (max-width: 768px) {
   .scroll-to-top-button {
     bottom: 2rem;
@@ -381,9 +352,7 @@ button.bg-e9edc9 {
   }
 }
 
-/**
- * Pulsating Animation
- */
+/* Pulsating Animation */
 @keyframes pulse {
   0%,
   100% {
@@ -396,18 +365,21 @@ button.bg-e9edc9 {
   }
 }
 
+/* Toastify success message styles */
 .toastify-success {
   background-color: #506d06 !important;
   color: #fff !important;
   font-size: 16px;
 }
 
+/* Toastify error message styles */
 .toastify-error {
   background-color: #711805 !important;
   color: #fff !important;
   font-size: 16px;
 }
 
+/* Toastify default message styles */
 .toastify-default {
   border-radius: 8px;
   padding: 10px 20px;

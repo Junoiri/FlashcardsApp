@@ -5,6 +5,11 @@ import { authenticateUser } from "../services/Authentication";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+/**
+ * Home component serves as the landing page for the application, providing an introduction and authentication options.
+ *
+ * @returns {JSX.Element} The rendered Home component.
+ */
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [isRegister, setIsRegister] = useState(false);
@@ -16,10 +21,21 @@ const Home = () => {
   });
   const [errors, setErrors] = useState({});
 
+  /**
+   * Handles input changes and updates the form data state.
+   *
+   * @param {Event} e - The input change event.
+   */
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  /**
+   * Displays a toast notification.
+   *
+   * @param {string} type - The type of the toast (success, error, default).
+   * @param {string} message - The message to display in the toast.
+   */
   const showToast = (type, message) => {
     toast(message, {
       className:
@@ -31,6 +47,11 @@ const Home = () => {
     });
   };
 
+  /**
+   * Handles the authentication process for login or registration.
+   *
+   * @param {Event} e - The form submit event.
+   */
   const handleAuth = async (e) => {
     e.preventDefault();
     console.log("Sending request:", isRegister, formData);
@@ -62,16 +83,29 @@ const Home = () => {
   const aboutSectionRef = useRef(null);
   const featuresSectionRef = useRef(null);
 
+  /**
+   * Toggles the visibility of the modal.
+   */
   const toggleModal = () => {
     setShowModal((prev) => !prev);
     setIsRegister(false);
   };
 
+  /**
+   * Switches the modal to the registration form.
+   */
   const switchToRegister = () => setIsRegister(true);
 
+  /**
+   * Switches the modal to the login form.
+   */
   const switchToLogin = () => setIsRegister(false);
 
-  //TODO: fix scrolls it goes only down
+  /**
+   * Scrolls to the specified section.
+   *
+   * @param {Object} sectionRef - The reference to the section to scroll to.
+   */
   const scrollToSection = (sectionRef) => {
     sectionRef.current.scrollIntoView({ behavior: "smooth" });
   };

@@ -12,6 +12,11 @@ import FlashcardEditor from "./pages/FlashcardEditor";
 import Learn from "./pages/Learn";
 import FlashcardSetPreview from "./pages/FlashcardSetPreview";
 
+/**
+ * The main App component that sets up the routing for the application.
+ *
+ * @returns {JSX.Element} The rendered App component.
+ */
 function App() {
   return (
     <Router>

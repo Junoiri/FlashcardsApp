@@ -6,6 +6,11 @@ import editIcon from "../assets/edit.png";
 import deleteIcon from "../assets/delete.png";
 import { useNavigate, useParams } from "react-router-dom";
 
+/**
+ * PreviewPage component displays a preview of the flashcards in a set, allowing users to edit or delete flashcards.
+ *
+ * @returns {JSX.Element} The rendered PreviewPage component.
+ */
 const PreviewPage = () => {
   const { flashcardSetId } = useParams();
   const navigate = useNavigate();
@@ -25,6 +30,9 @@ const PreviewPage = () => {
       return;
     }
 
+    /**
+     * Fetches the flashcard set from the server.
+     */
     const fetchFlashcardSet = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -47,16 +55,31 @@ const PreviewPage = () => {
     fetchFlashcardSet();
   }, [flashcardSetId]);
 
+  /**
+   * Handles the back button click event.
+   * Navigates to the library page.
+   */
   const handleBackClick = () => {
     navigate("/library");
   };
 
+  /**
+   * Handles the create button click event.
+   * Navigates to the create page.
+   *
+   * @param {string} flashcardSetId - The ID of the flashcard set.
+   * @param {string} flashcardSetTitle - The title of the flashcard set.
+   */
   const handleCreateClick = (flashcardSetId, flashcardSetTitle) => {
     localStorage.setItem("flashcardSetId", flashcardSetId);
     localStorage.setItem("flashcardSetTitle", flashcardSetTitle);
     navigate(`/create`);
   };
 
+  /**
+   * Handles the learn button click event.
+   * Navigates to the learn page if there are flashcards, otherwise shows a modal.
+   */
   const handleLearnClick = () => {
     if (flashcards && flashcards.length > 0) {
       navigate("/learn", { state: { flashcardSetId } });
@@ -65,18 +88,36 @@ const PreviewPage = () => {
     }
   };
 
+  /**
+   * Closes the modal.
+   */
   const closeModal = () => {
     setShowModal(false);
   };
 
+  /**
+   * Handles the edit button click event.
+   * Sets the flashcard to be edited.
+   *
+   * @param {Object} flashcard - The flashcard to edit.
+   */
   const handleEditClick = (flashcard) => {
     setEditFlashcard(flashcard);
   };
 
+  /**
+   * Handles the delete button click event.
+   * Sets the flashcard ID to be deleted.
+   *
+   * @param {string} flashcardId - The ID of the flashcard to delete.
+   */
   const handleDeleteClick = (flashcardId) => {
     setDeleteFlashcardId(flashcardId);
   };
 
+  /**
+   * Confirms the deletion of the flashcard.
+   */
   const confirmDelete = async () => {
     if (!deleteFlashcardId) return;
     try {
@@ -95,6 +136,9 @@ const PreviewPage = () => {
     }
   };
 
+  /**
+   * Saves the edited flashcard.
+   */
   const handleSaveEdit = async () => {
     if (!editFlashcard) return;
 

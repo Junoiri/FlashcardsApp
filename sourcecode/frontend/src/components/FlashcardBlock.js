@@ -3,6 +3,20 @@ import "../styles/FlashcardBlock.css";
 import editIcon from "../assets/edit.png";
 import deleteIcon from "../assets/delete.png";
 
+/**
+ * FlashcardBlock component renders a flashcard block with functionalities to view, edit, and delete flashcards.
+ * It displays the flashcard set's name, category, number of flashcards, and author.
+ * It also provides buttons to edit and delete the flashcard set, with corresponding popups for confirmation and input.
+ *
+ * @param {string} setName - The name of the flashcard set.
+ * @param {string} category - The category of the flashcard set.
+ * @param {number} numFlashcards - The number of flashcards in the set.
+ * @param {string} author - The author of the flashcard set.
+ * @param {function} onClick - The function to call when the flashcard block is clicked.
+ * @param {function} onEdit - The function to call when the flashcard set is edited.
+ * @param {function} onDelete - The function to call when the flashcard set is deleted.
+ * @returns {JSX.Element} The rendered flashcard block component.
+ */
 const FlashcardBlock = ({
   setName,
   category,
@@ -17,25 +31,49 @@ const FlashcardBlock = ({
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
 
+  /**
+   * Handles the click event for the delete button.
+   * Stops event propagation and shows the delete confirmation popup.
+   *
+   * @param {Event} e - The click event.
+   */
   const handleDeleteClick = (e) => {
     e.stopPropagation();
     setShowDeletePopup(true);
   };
 
+  /**
+   * Confirms the deletion of the flashcard set.
+   * Calls the onDelete function and hides the delete confirmation popup.
+   */
   const confirmDelete = () => {
     onDelete();
     setShowDeletePopup(false);
   };
 
+  /**
+   * Cancels the deletion of the flashcard set.
+   * Hides the delete confirmation popup.
+   */
   const cancelDelete = () => {
     setShowDeletePopup(false);
   };
 
+  /**
+   * Handles the click event for the edit button.
+   * Stops event propagation and shows the edit popup.
+   *
+   * @param {Event} e - The click event.
+   */
   const handleEditClick = (e) => {
     e.stopPropagation();
     setShowEditPopup(true);
   };
 
+  /**
+   * Handles the save action for the edited flashcard.
+   * Logs the question and answer, calls the onEdit function, and hides the edit popup.
+   */
   const handleSave = () => {
     console.log("Saving:", { question, answer });
     if (onEdit) {

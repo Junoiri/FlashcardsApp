@@ -7,6 +7,12 @@ import smileyIcon from "../assets/smiley.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+/**
+ * Learn component allows users to study flashcards by displaying terms and definitions.
+ * Users can navigate through flashcards and mark their understanding as Bad, OK, or Good.
+ *
+ * @returns {JSX.Element} The rendered Learn component.
+ */
 const Learn = () => {
   const { state } = useLocation();
   const flashcardSetId = state?.flashcardSetId;
@@ -22,6 +28,9 @@ const Learn = () => {
       return;
     }
 
+    /**
+     * Fetches the flashcard set from the server.
+     */
     const fetchFlashcardSet = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -41,10 +50,16 @@ const Learn = () => {
     fetchFlashcardSet();
   }, [flashcardSetId]);
 
+  /**
+   * Toggles the visibility of the flashcard answer.
+   */
   const toggleShowAnswer = () => {
     setShowAnswer((prev) => !prev);
   };
 
+  /**
+   * Handles the navigation to the next flashcard.
+   */
   const handleNextFlashcard = () => {
     setShowAnswer(false);
     if (currentIndex < flashcards.length - 1) {
@@ -54,6 +69,10 @@ const Learn = () => {
     }
   };
 
+  /**
+   * Handles the back button click event.
+   * Navigates to the library page.
+   */
   const handleBackClick = () => {
     navigate("/library");
   };

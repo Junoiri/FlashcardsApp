@@ -10,6 +10,11 @@ import FlashcardBlock from "../components/FlashcardBlock";
 import axios from "axios";
 import { getCurrentUser } from "../services/Authentication";
 
+/**
+ * Library component displays the user's flashcard sets and provides options to create, edit, and delete flashcard sets.
+ *
+ * @returns {JSX.Element} The rendered Library component.
+ */
 const Library = () => {
   const navigate = useNavigate();
   const [flashcardSets, setFlashcardsSets] = useState([]);
@@ -23,6 +28,9 @@ const Library = () => {
   const [editingFlashcardSet, setEditingFlashcardSet] = useState(null);
 
   useEffect(() => {
+    /**
+     * Fetches the user's flashcard sets from the server.
+     */
     const fetchFlashcardSets = async () => {
       try {
         const user = getCurrentUser();
@@ -77,6 +85,9 @@ const Library = () => {
     fetchMe();
   }, []);
 
+  /**
+   * Fetches the current user's data from the server and sets the username state.
+   */
   const fetchMe = async () => {
     try {
       const user = getCurrentUser();
@@ -100,6 +111,9 @@ const Library = () => {
     }
   };
 
+  /**
+   * Creates a new flashcard set.
+   */
   const createFlashcardSet = async () => {
     try {
       const user = getCurrentUser();
@@ -135,6 +149,11 @@ const Library = () => {
     }
   };
 
+  /**
+   * Deletes a flashcard set.
+   *
+   * @param {string} flashcardSetId - The ID of the flashcard set to delete.
+   */
   const deleteFlashcardSet = async (flashcardSetId) => {
     try {
       const token = localStorage.getItem("token");
@@ -157,11 +176,19 @@ const Library = () => {
     }
   };
 
+  /**
+   * Opens the edit popup for a flashcard set.
+   *
+   * @param {Object} flashcardSet - The flashcard set to edit.
+   */
   const editFlashcardSet = (flashcardSet) => {
     setEditingFlashcardSet(flashcardSet);
     setIsEditPopupVisible(true);
   };
 
+  /**
+   * Saves the edited flashcard set.
+   */
   const handleSaveEdit = async () => {
     if (editingFlashcardSet) {
       try {
@@ -195,6 +222,11 @@ const Library = () => {
     }
   };
 
+  /**
+   * Navigates to the preview page for a flashcard set.
+   *
+   * @param {string} flashcardSetId - The ID of the flashcard set to preview.
+   */
   const clickFlashcardSet = (flashcardSetId) => {
     navigate(`/preview/${flashcardSetId}`);
   };

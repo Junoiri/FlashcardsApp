@@ -2,6 +2,11 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8000/";
 
+/**
+ * Fetches all flashcards from the server.
+ *
+ * @returns {Promise<Object>} The result of the fetch operation, including success status and data or error message.
+ */
 export const getAllFlashcards = async () => {
   const token = localStorage.getItem("token");
 

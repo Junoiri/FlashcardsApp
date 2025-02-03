@@ -3,6 +3,17 @@ import { jwtDecode } from "jwt-decode";
 
 const API_URL = "http://localhost:8000/auth";
 
+/**
+ * Authenticates the user by either registering or logging in.
+ *
+ * @param {boolean} isRegister - Indicates whether the user is registering or logging in.
+ * @param {Object} formData - The form data containing user credentials.
+ * @param {string} formData.username - The username of the user (required for registration).
+ * @param {string} formData.email - The email of the user.
+ * @param {string} formData.password - The password of the user.
+ * @param {string} formData.repeat - The repeated password (required for registration).
+ * @returns {Promise<Object>} The result of the authentication process.
+ */
 export const authenticateUser = async (isRegister, formData) => {
   const { username, email, password, repeat } = formData;
 
@@ -38,6 +49,11 @@ export const authenticateUser = async (isRegister, formData) => {
   }
 };
 
+/**
+ * Retrieves the current user from the stored token.
+ *
+ * @returns {Object|null} The decoded token containing user information, or null if the token is invalid or expired.
+ */
 export const getCurrentUser = () => {
   const token = localStorage.getItem("token");
 

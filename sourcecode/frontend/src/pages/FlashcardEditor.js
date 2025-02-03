@@ -6,6 +6,11 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+/**
+ * FlashcardEditor component allows users to create and edit flashcards.
+ *
+ * @returns {JSX.Element} The rendered FlashcardEditor component.
+ */
 const FlashcardEditor = () => {
   const [boldActive, setBoldActive] = useState(false);
   const [italicActive, setItalicActive] = useState(false);
@@ -19,11 +24,31 @@ const FlashcardEditor = () => {
   );
   const [flashcardSetId] = useState(localStorage.getItem("flashcardSetId"));
 
+  /**
+   * Toggles the bold text style.
+   */
   const toggleBold = () => setBoldActive((prev) => !prev);
+
+  /**
+   * Toggles the italic text style.
+   */
   const toggleItalic = () => setItalicActive((prev) => !prev);
+
+  /**
+   * Toggles the underline text style.
+   */
   const toggleUnderline = () => setUnderlineActive((prev) => !prev);
+
+  /**
+   * Toggles the uppercase text style.
+   */
   const toggleUppercase = () => setUppercaseActive((prev) => !prev);
 
+  /**
+   * Applies the selected text styles to the text area.
+   *
+   * @returns {Object} The styles to be applied.
+   */
   const applyTextStyles = () => {
     let styles = {};
     if (boldActive) styles.fontWeight = "bold";
@@ -33,6 +58,12 @@ const FlashcardEditor = () => {
     return styles;
   };
 
+  /**
+   * Displays a toast notification.
+   *
+   * @param {string} type - The type of the toast (success, error, default).
+   * @param {string} message - The message to be displayed.
+   */
   const showToast = (type, message) => {
     toast(message, {
       className:
@@ -44,6 +75,11 @@ const FlashcardEditor = () => {
     });
   };
 
+  /**
+   * Handles the file upload for images.
+   *
+   * @param {Event} e - The file upload event.
+   */
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -51,15 +87,24 @@ const FlashcardEditor = () => {
     }
   };
 
+  /**
+   * Removes the uploaded image.
+   */
   const removeImage = () => {
     setUploadedImage(null);
   };
 
+  /**
+   * Adds a new flashcard to the list.
+   */
   const addNewFlashcard = () => {
     setFlashcards((prev) => [...prev, { question: "", answer: "" }]);
     setCurrentFlashcardIndex(flashcards.length);
   };
 
+  /**
+   * Saves the flashcards to the server.
+   */
   const handleSave = async () => {
     try {
       console.log("Flashcards before saving:", flashcards);
@@ -99,12 +144,22 @@ const FlashcardEditor = () => {
     }
   };
 
+  /**
+   * Handles the change in the question text area.
+   *
+   * @param {Event} e - The change event.
+   */
   const handleQuestionChange = (e) => {
     const updatedFlashcards = [...flashcards];
     updatedFlashcards[currentFlashcardIndex].question = e.target.value;
     setFlashcards(updatedFlashcards);
   };
 
+  /**
+   * Handles the change in the answer text area.
+   *
+   * @param {Event} e - The change event.
+   */
   const handleAnswerChange = (e) => {
     const updatedFlashcards = [...flashcards];
     updatedFlashcards[currentFlashcardIndex].answer = e.target.value;

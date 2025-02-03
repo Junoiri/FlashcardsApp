@@ -1,3 +1,4 @@
+/* General styles for the body */
 body {
   margin: 0;
   font-family: "Merriweather", serif;
@@ -6,18 +7,21 @@ body {
   background-repeat: no-repeat;
 }
 
+/* Background image for smaller screens */
 @media (max-width: 768px) {
   body {
     background-image: url("../assets/mobile-bg2.jpg");
   }
 }
 
+/* Background image for larger screens */
 @media (min-width: 769px) {
   body {
     background-image: url("../assets/desktop-bg2.jpg");
   }
 }
 
+/* Container for the learn page */
 .learn-container {
   display: flex;
   flex-direction: column;
@@ -27,23 +31,27 @@ body {
   padding: 10px 20px;
 }
 
+/* Header of the learn page */
 .learn-header {
   display: flex;
   align-items: center;
   width: 100%;
 }
 
+/* Back button styles */
 .back-button {
   cursor: pointer;
   margin-right: 20px;
 }
 
+/* Title of the learn page */
 .learn-title {
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
 }
 
+/* Progress bar styles */
 .progress-bar {
   display: flex;
   gap: 5px;
@@ -51,6 +59,7 @@ body {
   width: 100%;
 }
 
+/* Individual progress step styles */
 .progress-step {
   flex: 1;
   height: 4px;
@@ -63,6 +72,7 @@ body {
   background-color: #f7e5b5;
 }
 
+/* Container for the flashcard */
 .flashcard-container {
   flex: 1;
   display: flex;
@@ -70,6 +80,8 @@ body {
   justify-content: center;
   width: 100%;
 }
+
+/* Flashcard styles */
 .flashcard {
   width: 80%;
   height: 100%;
@@ -83,20 +95,24 @@ body {
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
+/* Flashcard content styles */
 .flashcard-content {
   font-size: 1.2rem;
   margin-bottom: 20px;
 }
 
+/* Show answer button styles */
 .show-answer-button {
   background-color: transparent;
   border: none;
-  color: black; /* Text color for "Show answer" */
+  color: black;
   cursor: pointer;
   font-size: 1rem;
   text-decoration: underline;
 }
 
+/* Container for the options */
 .options-container {
   display: flex;
   justify-content: space-around;
@@ -104,6 +120,7 @@ body {
   padding: 20px 0;
 }
 
+/* Option button styles */
 .option-button {
   display: flex;
   flex-direction: column;
@@ -119,33 +136,40 @@ body {
   font-size: 1rem;
 }
 
+/* Bad option button styles */
 .option-bad {
   background-color: #e63946;
 }
 
+/* Ok option button styles */
 .option-ok {
   background-color: #f4a261;
 }
 
+/* Good option button styles */
 .option-good {
   background-color: #2a9d8f;
 }
 
+/* Option button image styles */
 .option-button img {
   width: 40px;
   height: 40px;
   margin-bottom: 10px;
 }
 
+/* Good option button image styles */
 .option-good img {
   width: 50px;
   height: 50px;
 }
 
+/* Option button hover effect */
 .option-button:hover {
   opacity: 0.8;
 }
 
+/* Mobile-specific adjustments */
 @media (max-width: 768px) {
   .learn-title {
     font-size: 1.2rem;
@@ -161,7 +185,7 @@ body {
   }
 
   .option-good img {
-    width: 35px; /* Adjusted for mobile */
+    width: 35px;
     height: 35px;
   }
 }

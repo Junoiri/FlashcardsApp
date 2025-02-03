@@ -1,11 +1,11 @@
-/* Library.css */
-
+/* General styles for the body */
 body {
   margin: 0;
   font-family: "Merriweather", serif;
   overflow-y: auto;
 }
 
+/* Container for the library page */
 .library-container {
   display: flex;
   height: auto;
@@ -17,12 +17,14 @@ body {
   background-repeat: no-repeat;
 }
 
+/* Responsive background image for smaller screens */
 @media (max-width: 768px) {
   .library-container {
     background-image: url("../assets/mobile-bg2.jpg");
   }
 }
 
+/* Sidebar styles */
 .library-sidebar {
   background-color: #6c757d;
   color: white;
@@ -63,6 +65,7 @@ body {
   color: #faedcd;
 }
 
+/* Responsive sidebar styles for smaller screens */
 @media (max-width: 768px) {
   .library-sidebar {
     padding: 10px 10px;
@@ -83,6 +86,7 @@ body {
   }
 }
 
+/* Main content area styles */
 .library-main {
   flex: 1;
   display: flex;
@@ -90,6 +94,7 @@ body {
   justify-content: center;
 }
 
+/* Placeholder for main content */
 .content-placeholder {
   display: flex;
   align-items: center;
@@ -98,6 +103,7 @@ body {
   width: 100%;
 }
 
+/* Transparent rectangle container */
 .transparent-rectangle {
   background-color: rgba(255, 255, 255, 0.25);
   margin: 0;
@@ -112,12 +118,14 @@ body {
   align-items: center;
 }
 
+/* Title styles */
 .library-title {
   font-size: 2rem;
   color: #333;
   margin-bottom: 20px;
 }
 
+/* Filter and sort container styles */
 .filter-sort-container {
   display: flex;
   gap: 15px;
@@ -126,6 +134,7 @@ body {
   flex-wrap: wrap;
 }
 
+/* Category filter and sort options styles */
 .category-filter,
 .sort-options {
   padding: 10px;
@@ -136,6 +145,7 @@ body {
   font-size: 1rem;
 }
 
+/* Create study set button styles */
 .create-study-set-button {
   display: flex;
   align-items: center;
@@ -159,15 +169,17 @@ body {
   width: 20px;
   height: 20px;
   margin-right: 10px;
-  cursor: pointer; /* Make icon a clickable element */
+  cursor: pointer;
 }
 
+/* Responsive create study set button styles for larger screens */
 @media (min-width: 769px) {
   .create-study-set-button {
     justify-content: flex-end;
   }
 }
 
+/* Flashcards grid styles */
 .flashcards-grid {
   display: flex;
   flex-wrap: wrap;
@@ -175,7 +187,7 @@ body {
   justify-content: center;
 }
 
-/* Popup Overlay */
+/* Popup overlay styles */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -189,7 +201,7 @@ body {
   z-index: 10;
 }
 
-/* Popup Content */
+/* Popup content styles */
 .popup-content {
   background: #fefae0;
   padding: 20px;
@@ -207,6 +219,7 @@ body {
   color: #333;
 }
 
+/* Popup input styles */
 .popup-input {
   margin-bottom: 20px;
 }
@@ -227,6 +240,7 @@ body {
   color: #333;
 }
 
+/* Popup actions styles */
 .popup-actions {
   display: flex;
   justify-content: flex-end;
@@ -234,7 +248,7 @@ body {
 }
 
 .popup-confirm {
-  background-color: #ccd5ae; /* Swapped color */
+  background-color: #ccd5ae;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -249,7 +263,7 @@ body {
 }
 
 .popup-cancel {
-  background-color: #faedcd; /* Swapped color */
+  background-color: #faedcd;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -263,7 +277,7 @@ body {
   background-color: #e9edc9;
 }
 
-/* Close Icon */
+/* Close icon styles */
 .popup-close-icon {
   position: absolute;
   top: 10px;

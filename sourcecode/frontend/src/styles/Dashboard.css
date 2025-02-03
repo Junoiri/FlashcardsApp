@@ -1,11 +1,11 @@
-/* Dashboard CSS */
-
+/* General styles for the body */
 body {
   margin: 0;
   font-family: "Merriweather", serif;
   overflow-y: auto;
 }
 
+/* Container for the dashboard page */
 .dashboard-container {
   display: flex;
   height: auto;
@@ -17,12 +17,14 @@ body {
   background-repeat: no-repeat;
 }
 
+/* Responsive background image for smaller screens */
 @media (max-width: 768px) {
   .dashboard-container {
     background-image: url("../assets/mobile-bg2.jpg");
   }
 }
 
+/* Sidebar styles */
 .dashboard-sidebar {
   background-color: #6c757d;
   color: white;
@@ -63,6 +65,7 @@ body {
   color: #faedcd;
 }
 
+/* Responsive sidebar styles for smaller screens */
 @media (max-width: 768px) {
   .dashboard-sidebar {
     padding: 10px 10px;
@@ -83,6 +86,7 @@ body {
   }
 }
 
+/* Main content area styles */
 .dashboard-main {
   flex: 1;
   display: flex;
@@ -90,6 +94,7 @@ body {
   justify-content: center;
 }
 
+/* Placeholder for main content */
 .content-placeholder {
   display: flex;
   align-items: center;
@@ -98,6 +103,7 @@ body {
   width: 100%;
 }
 
+/* Transparent rectangle container */
 .transparent-rectangle {
   background-color: rgba(255, 255, 255, 0.25);
   margin: 0;
@@ -112,28 +118,32 @@ body {
   align-items: center;
 }
 
+/* Welcome message styles */
 .welcome-message {
-  font-size: 1.5rem; /* Same size as the other headers */
-  margin-bottom: 40px; /* Increased spacing below welcome message */
+  font-size: 1.5rem;
+  margin-bottom: 40px;
 }
 
+/* Activity header styles */
 .activity-header {
-  font-size: 1.5rem; /* Increased font size */
-  margin-bottom: 40px; /* Increased spacing below activity section */
+  font-size: 1.5rem;
+  margin-bottom: 40px;
   text-align: center;
 }
 
+/* Flashcards header styles */
 .flashcards-header {
-  font-size: 1.5rem; /* Same size as the other headers */
-  margin-top: 40px; /* Increased spacing above flashcards section */
+  font-size: 1.5rem;
+  margin-top: 40px;
   text-align: center;
 }
 
+/* Flashcards grid styles */
 .flashcards-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Adjusted margin between flashcard blocks */
-  overflow-x: auto; /* Enable horizontal scrolling on desktop */
+  gap: 20px;
+  overflow-x: auto;
   padding-bottom: 10px;
 }
 
@@ -150,21 +160,24 @@ body {
   background: #fefae0;
 }
 
+/* Responsive flashcards grid styles for smaller screens */
 @media (max-width: 768px) {
   .flashcards-grid {
     flex-direction: column;
-    gap: 15px; /* Reduced gap for vertical layout on mobile */
-    overflow-x: hidden; /* Disable horizontal scrolling on mobile */
+    gap: 15px;
+    overflow-x: hidden;
   }
 }
 
+/* Activity days grid styles */
 .activity-days {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px 20px; /* Increased vertical gap between rows */
+  gap: 8px 20px;
   justify-content: center;
 }
 
+/* Individual activity day styles */
 .activity-day {
   display: flex;
   flex-direction: column;
@@ -192,24 +205,26 @@ body {
   margin-top: 10px;
 }
 
+/* Responsive activity days grid styles for smaller screens */
 @media (max-width: 768px) {
   .activity-days {
-    grid-template-columns: repeat(4, 1fr); /* 4 days on top row */
-    justify-content: center; /* Align both rows to the center */
-    gap: 15px 5px; /* Reduced horizontal spacing, increased vertical gap */
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+    gap: 15px 5px;
   }
 
   .activity-day {
-    width: 60px; /* Increased width for better fit */
-    height: 110px; /* Increased height for better visibility */
+    width: 60px;
+    height: 110px;
   }
 }
 
+/* Load more button styles */
 .load-more-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: transparent; /* Make sure there's no background overriding the icon */
+  background-color: transparent;
   border: none;
   padding: 12px;
   margin-top: 20px;
@@ -225,7 +240,7 @@ body {
 }
 
 .load-more-icon {
-  width: 24px; /* Adjust size for the icon */
+  width: 24px;
   height: 24px;
-  display: block; /* Ensure it's displayed properly */
+  display: block;
 }

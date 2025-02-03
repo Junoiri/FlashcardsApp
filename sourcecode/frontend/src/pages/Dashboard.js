@@ -10,10 +10,18 @@ import moreIcon from "../assets/more.png";
 import { getCurrentUser } from "../services/Authentication";
 import axios from "axios";
 
+/**
+ * Dashboard component displays the user's dashboard with recent flashcards, activity, and navigation options.
+ *
+ * @returns {JSX.Element} The rendered Dashboard component.
+ */
 const Dashboard = () => {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
+    /**
+     * Fetches the current user's data from the server and sets the username state.
+     */
     const fetchMe = async () => {
       try {
         const user = getCurrentUser();
@@ -58,6 +66,11 @@ const Dashboard = () => {
   ];
   const [flashcards, setFlashcards] = useState(initialFlashcards);
 
+  /**
+   * Navigates to the specified path.
+   *
+   * @param {string} path - The path to navigate to.
+   */
   const navigateTo = (path) => {
     window.location.href = path;
   };
@@ -93,6 +106,9 @@ const Dashboard = () => {
     },
   ];
 
+  /**
+   * Loads more flashcards into the state.
+   */
   const loadMoreFlashcards = () => {
     setFlashcards([...flashcards, ...moreFlashcards]);
   };

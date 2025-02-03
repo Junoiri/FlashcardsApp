@@ -12,25 +12,36 @@ const FlashcardBlock = ({
   onEdit,
   onDelete,
 }) => {
-  const [showPopup, setShowPopup] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [showEditPopup, setShowEditPopup] = useState(false);
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
 
   const handleDeleteClick = (e) => {
     e.stopPropagation();
-    setShowPopup(true);
+    setShowDeletePopup(true);
   };
 
   const confirmDelete = () => {
     onDelete();
-    setShowPopup(false);
+    setShowDeletePopup(false);
   };
 
   const cancelDelete = () => {
-    setShowPopup(false);
+    setShowDeletePopup(false);
   };
 
   const handleEditClick = (e) => {
     e.stopPropagation();
-    window.location.href = "/create";
+    setShowEditPopup(true);
+  };
+
+  const handleSave = () => {
+    console.log("Saving:", { question, answer });
+    if (onEdit) {
+      onEdit({ question, answer });
+    }
+    setShowEditPopup(false);
   };
 
   return (
@@ -51,7 +62,7 @@ const FlashcardBlock = ({
         </button>
       </div>
 
-      {showPopup && (
+      {showDeletePopup && (
         <div className="popup-overlay">
           <div className="popup-content">
             <p>Are you sure you want to delete "{setName}"?</p>
@@ -61,6 +72,43 @@ const FlashcardBlock = ({
               </button>
               <button onClick={cancelDelete} className="popup-cancel">
                 Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showEditPopup && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h3>Edit Flashcard</h3>
+            <div className="popup-input">
+              <label>Question</label>
+              <input
+                type="text"
+                value={question}
+                onChange={(e) => setQuestion(e.target.value)}
+                placeholder="Enter question"
+              />
+            </div>
+            <div className="popup-input">
+              <label>Answer</label>
+              <input
+                type="text"
+                value={answer}
+                onChange={(e) => setAnswer(e.target.value)}
+                placeholder="Enter answer"
+              />
+            </div>
+            <div className="popup-actions">
+              <button
+                onClick={() => setShowEditPopup(false)}
+                className="popup-cancel"
+              >
+                Cancel
+              </button>
+              <button onClick={handleSave} className="popup-confirm">
+                Save
               </button>
             </div>
           </div>

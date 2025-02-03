@@ -6,7 +6,6 @@ import backIcon from "../assets/back.png";
 import homeIcon from "../assets/home.png";
 import libraryIcon from "../assets/music-library.png";
 import settingsIcon from "../assets/settings.png";
-import helpIcon from "../assets/help.png";
 import robotIcon from "../assets/robot.png";
 import flashCardIcon from "../assets/flash-card.png";
 import rightArrowIcon from "../assets/right.png";
@@ -17,13 +16,14 @@ const Create = () => {
   const [showBackPopup, setShowBackPopup] = useState(false);
   const [showUploadPopup, setShowUploadPopup] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
-  const [extractedText, setExtractedText] = useState("");
+  // eslint-disable-next-line
+  const [flashcards, setFlashcards] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [flashcardSetTitle] = useState(
-    localStorage.getItem("flashcardSetTitle")
-  );
-  const [flashcardSetId] = useState(localStorage.getItem("flashcardSetId"));
+
+  const flashcardSetTitle = localStorage.getItem("flashcardSetTitle");
+  const flashcardSetId = localStorage.getItem("flashcardSetId");
+
   const handleBackButtonClick = () => setShowBackPopup(true);
   const confirmBackNavigation = () => navigate(-1);
   const cancelBackNavigation = () => setShowBackPopup(false);
@@ -39,38 +39,44 @@ const Create = () => {
     setUploadedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
-  const handleDone = async () => {
-    if (uploadedFiles.length === 0) return;
-
-    setLoading(true);
-    setExtractedText("");
-    setError(null);
+  const handleUploadPDF = async (file) => {
+    if (!flashcardSetId) {
+      setError("Flashcard Set ID is missing. Please try again.");
+      return;
+    }
 
     const formData = new FormData();
-    formData.append("pdfFile", uploadedFiles[0]);
+    formData.append("pdf", file);
+    formData.append("setId", flashcardSetId);
 
     try {
+      setLoading(true);
       const response = await axios.post(
-        "http://localhost:8000/extract/extract-text",
+        "http://localhost:8000/flashcards/upload",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      setExtractedText(response.data.text);
-    } catch (err) {
-      setError("Failed to extract text. Please try again.");
+      setFlashcards(response.data.flashcards);
+      closeUploadPopup();
+      navigate("/editor");
+    } catch (error) {
+      console.error("Error uploading PDF:", error.response?.data || error);
+      setError("Failed to generate flashcards. Please try again.");
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
-  const handleEditorClick = (flashcardSetId, flashcardSetTitle) => {
-    localStorage.setItem("flashcardSetId", flashcardSetId);
-    localStorage.setItem("flashcardSetTitle", flashcardSetTitle);
+  const handleDone = () => {
+    if (uploadedFiles.length === 0) return;
+    handleUploadPDF(uploadedFiles[0]);
+  };
 
-    navigate(`/editor`);
+  const handleEditorClick = () => {
+    navigate("/editor");
   };
 
   const navigateTo = (path) => navigate(path);
@@ -91,10 +97,6 @@ const Create = () => {
             <img src={settingsIcon} alt="Settings" />
             <a href="/settings">Settings</a>
           </li>
-          <li onClick={() => navigateTo("/help")}>
-            <img src={helpIcon} alt="Help" />
-            <a href="/help">Help</a>
-          </li>
         </ul>
       </aside>
 
@@ -105,7 +107,7 @@ const Create = () => {
 
         <div className="content-placeholder">
           <div className="transparent-rectangle">
-            <h1 className="create-title"> {flashcardSetTitle}</h1>
+            <h1 className="create-title">{flashcardSetTitle}</h1>
             <h2 className="create-subtitle">
               Get started by adding study material
             </h2>
@@ -124,12 +126,7 @@ const Create = () => {
                 <img src={rightArrowIcon} alt="Arrow" className="right-arrow" />
               </div>
 
-              <div
-                className="create-option"
-                onClick={() =>
-                  handleEditorClick(flashcardSetId, flashcardSetTitle)
-                }
-              >
+              <div className="create-option" onClick={handleEditorClick}>
                 <img
                   src={flashCardIcon}
                   alt="Manual Flashcard"
@@ -193,20 +190,8 @@ const Create = () => {
               ))}
             </ul>
 
-            {loading && <p>Extracting text...</p>}
+            {loading && <p>Generating flashcards...</p>}
             {error && <p style={{ color: "red" }}>{error}</p>}
-            {extractedText && (
-              <div className="extracted-text">
-                <h3>Extracted Text</h3>
-                <pre>{extractedText}</pre>
-                <button
-                  onClick={() => handleEditorClick()}
-                  className="popup-confirm"
-                >
-                  Proceed to Flashcards
-                </button>
-              </div>
-            )}
 
             <div className="popup-actions">
               <button onClick={closeUploadPopup} className="popup-cancel">
@@ -214,7 +199,7 @@ const Create = () => {
               </button>
               {uploadedFiles.length > 0 && (
                 <button onClick={handleDone} className="popup-confirm">
-                  Extract
+                  Generate
                 </button>
               )}
             </div>

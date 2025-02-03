@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const flashcardController = require("../controllers/flashcardController");
 const authorize = require("../auth/authorize");
+const multer = require("multer");
 
 /**
  * @swagger
@@ -241,5 +242,13 @@ router.patch("/:id", authorize(), flashcardController.updateFlashcard);
  *         description: Server error
  */
 router.delete("/:id", authorize(), flashcardController.deleteFlashcard);
+
+const upload = multer({ dest: "services/uploads/" });
+
+router.post(
+  "/upload",
+  upload.single("pdf"),
+  flashcardController.createFlashcardsFromPDF
+);
 
 module.exports = router;

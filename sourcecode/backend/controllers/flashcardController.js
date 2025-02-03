@@ -1,5 +1,7 @@
 const Flashcard = require("../models/flashcard");
 const FlashcardSet = require("../models/flashcardSet");
+const extractTextFromPDF = require("../services/pdfService");
+const generateFlashcards = require("../services/openaiService");
 
 const getAllFlashcards = async (req, res) => {
   try {
@@ -95,6 +97,33 @@ const deleteFlashcard = async (req, res) => {
   }
 };
 
+const createFlashcardsFromPDF = async (req, res) => {
+  try {
+    const { setId } = req.body;
+    if (!setId) {
+      return res.status(400).json({ error: "Missing setId parameter." });
+    }
+
+    const pdfPath = req.file.path;
+    const extractedText = await extractTextFromPDF(pdfPath);
+    const flashcards = await generateFlashcards(extractedText);
+
+    const savedFlashcards = await Flashcard.insertMany(
+      flashcards.map((flashcard) => ({
+        setId,
+        term: flashcard.term,
+        definition: flashcard.definition,
+        createdAt: new Date(),
+      }))
+    );
+
+    res
+      .status(201)
+      .json({ message: "Flashcards created", flashcards: savedFlashcards });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 module.exports = {
   getAllFlashcards,
   getFlashcardsBySetId,
@@ -102,4 +131,5 @@ module.exports = {
   createFlashcard,
   updateFlashcard,
   deleteFlashcard,
+  createFlashcardsFromPDF,
 };

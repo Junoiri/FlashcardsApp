@@ -12,7 +12,7 @@ if (!fs.existsSync(outputDir)) {
 const extractTextFromPDF = async (pdfPath) => {
   const pdfExtractor = new PdfExtractor(outputDir, {
     viewportScale: (width) => (width > 1600 ? 1600 / width : 1),
-    pageRange: [1, 30],
+    pageRange: [1, 3],
   });
 
   try {
@@ -24,9 +24,7 @@ const extractTextFromPDF = async (pdfPath) => {
       if (file.endsWith(".png")) {
         const imagePath = path.join(outputDir, file);
         const { data } = await Tesseract.recognize(imagePath, "eng");
-        extractedText += `\n\n--- Page ${file.replace(".png", "")} ---\n${
-          data.text
-        }`;
+        extractedText += `${data.text} `;
       }
     }
 

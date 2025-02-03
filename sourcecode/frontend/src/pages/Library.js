@@ -17,8 +17,10 @@ const Library = () => {
   const [sortOption, setSortOption] = useState("dateCreated");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [newSetName, setNewSetName] = useState("");
-  const [username, setUsername] = useState("");
   const [newSetCategory, setNewSetCategory] = useState("");
+  const [username, setUsername] = useState("");
+  const [isEditPopupVisible, setIsEditPopupVisible] = useState(false);
+  const [editingFlashcardSet, setEditingFlashcardSet] = useState(null);
 
   useEffect(() => {
     const fetchFlashcardSets = async () => {
@@ -30,7 +32,6 @@ const Library = () => {
         }
 
         const token = localStorage.getItem("token");
-        console.log("Token Sent in Request:", token);
 
         const response = await axios.get(
           `http://localhost:8000/flashcardsets`,
@@ -40,8 +41,6 @@ const Library = () => {
             },
           }
         );
-
-        console.log("API Response:", response.data);
 
         const userFlashcardSets = Array.isArray(response.data)
           ? response.data.filter((set) => set.userId === user.id)
@@ -93,7 +92,6 @@ const Library = () => {
       }
 
       const token = localStorage.getItem("token");
-      console.log("Token Sent in Request:", token);
 
       const response = await axios.post(
         `http://localhost:8000/flashcardsets`,
@@ -110,7 +108,6 @@ const Library = () => {
         }
       );
 
-      console.log("API Response:", response.data);
       setFlashcardsSets((prevSets) => [...prevSets, response.data]);
       setIsPopupVisible(false);
     } catch (error) {
@@ -121,9 +118,67 @@ const Library = () => {
     }
   };
 
-  const handleFlashcardClick = (flashcardSetId, flashcardSetTitle) => {
-    localStorage.setItem("flashcardSetTitle", flashcardSetTitle);
+  const deleteFlashcardSet = async (flashcardSetId) => {
+    try {
+      const token = localStorage.getItem("token");
 
+      await axios.delete(
+        `http://localhost:8000/flashcardsets/${flashcardSetId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      setFlashcardsSets((prevSets) =>
+        prevSets.filter((set) => set._id !== flashcardSetId)
+      );
+    } catch (error) {
+      console.error(
+        "Error deleting flashcard set:",
+        error.response?.data || error
+      );
+    }
+  };
+
+  const editFlashcardSet = (flashcardSet) => {
+    setEditingFlashcardSet(flashcardSet);
+    setIsEditPopupVisible(true);
+  };
+
+  const handleSaveEdit = async () => {
+    if (editingFlashcardSet) {
+      try {
+        const token = localStorage.getItem("token");
+
+        await axios.patch(
+          `http://localhost:8000/flashcardsets/${editingFlashcardSet._id}`,
+          {
+            title: editingFlashcardSet.title,
+            category: editingFlashcardSet.category,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setFlashcardsSets((prevSets) =>
+          prevSets.map((set) =>
+            set._id === editingFlashcardSet._id ? editingFlashcardSet : set
+          )
+        );
+        setIsEditPopupVisible(false);
+      } catch (error) {
+        console.error(
+          "Error updating flashcard set:",
+          error.response?.data || error
+        );
+      }
+    }
+  };
+
+  const clickFlashcardSet = (flashcardSetId) => {
     navigate(`/preview/${flashcardSetId}`);
   };
 
@@ -224,11 +279,11 @@ const Library = () => {
                   key={index}
                   setName={card.title}
                   category={card.category}
-                  numFlashcards={card.flashcards}
-                  author={card.userId}
-                  onClick={() => {
-                    handleFlashcardClick(card._id, card.title);
-                  }}
+                  numFlashcards={card.flashcards ? card.flashcards.length : 0}
+                  author={username}
+                  onClick={() => clickFlashcardSet(card._id)}
+                  onDelete={deleteFlashcardSet}
+                  onEdit={() => editFlashcardSet(card)}
                 />
               ))}
             </div>
@@ -277,6 +332,57 @@ const Library = () => {
               </button>
               <button className="popup-confirm" onClick={createFlashcardSet}>
                 Create
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isEditPopupVisible && editingFlashcardSet && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>Edit Flashcard Set</h2>
+            <div className="popup-input">
+              <label>Study Set Name</label>
+              <input
+                type="text"
+                value={editingFlashcardSet.title}
+                onChange={(e) =>
+                  setEditingFlashcardSet({
+                    ...editingFlashcardSet,
+                    title: e.target.value,
+                  })
+                }
+                placeholder="Enter set name"
+              />
+            </div>
+            <div className="popup-input">
+              <label>Category</label>
+              <select
+                value={editingFlashcardSet.category}
+                onChange={(e) =>
+                  setEditingFlashcardSet({
+                    ...editingFlashcardSet,
+                    category: e.target.value,
+                  })
+                }
+              >
+                {categories.map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="popup-actions">
+              <button
+                onClick={() => setIsEditPopupVisible(false)}
+                className="popup-cancel"
+              >
+                Cancel
+              </button>
+              <button className="popup-confirm" onClick={handleSaveEdit}>
+                Save
               </button>
             </div>
           </div>

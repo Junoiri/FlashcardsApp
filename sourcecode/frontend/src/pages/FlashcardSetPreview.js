@@ -37,7 +37,7 @@ const PreviewPage = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:8000/flashcards/set/${flashcardSetId}`,
+          `http://localhost:8000/flashcards?flashcardSetId=${flashcardSetId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -140,12 +140,15 @@ const PreviewPage = () => {
    * Saves the edited flashcard.
    */
   const handleSaveEdit = async () => {
-    if (!editFlashcard) return;
+    if (!editFlashcard || !editFlashcard._id) {
+      console.error("Flashcard ID is missing:", editFlashcard);
+      return;
+    }
 
     try {
       const token = localStorage.getItem("token");
-      await axios.put(
-        `http://localhost:8000/flashcards/${editFlashcard.id}`,
+      await axios.patch(
+        `http://localhost:8000/flashcards/${editFlashcard._id}`,
         {
           term: editFlashcard.term,
           definition: editFlashcard.definition,
@@ -157,7 +160,7 @@ const PreviewPage = () => {
 
       setFlashcards(
         flashcards.map((fc) =>
-          fc.id === editFlashcard.id ? editFlashcard : fc
+          fc._id === editFlashcard._id ? editFlashcard : fc
         )
       );
       setEditFlashcard(null);

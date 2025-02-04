@@ -1,70 +1,108 @@
-# Getting Started with Create React App
+# 📖 Flashcards App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 🚀 Overview
 
-## Available Scripts
+The **Flashcards App** is a web-based application designed to help users create, manage, and study flashcards efficiently. With document upload capabilities and automatic flashcard generation using **Natural Language Processing (NLP)**, this app is perfect for students, professionals, and lifelong learners.
 
-In the project directory, you can run:
+### ✨ Features
 
-### `npm start`
+- **User Authentication** – Secure login with JWT authentication.
+- **Flashcard Management** – Create, edit, and delete flashcards with ease.
+- **Automated Flashcard Generation** – Upload PDFs or DOCX files and let the app generate flashcards for you.
+- **Study Mode** – Track learning progress with visual indicators.
+- **Responsive Design** – Optimized for both desktop and mobile.
+- **Progress Tracking** – Visual representation of learning progress.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠 Installation & Setup
 
-### `npm test`
+### 1️⃣ Clone the Repository
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+git clone https://github.com/your-repo/flashcards-app.git
+cd flashcards-app
+```
 
-### `npm run build`
+### 2️⃣ Install Dependencies
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Backend
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+cd backend
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Frontend
 
-### `npm run eject`
+```bash
+cd ../frontend
+npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 3️⃣ Configure Environment Variables
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+🚨 **IMPORTANT:** The `.env` file contains sensitive information (MongoDB URI, JWT secret, and port specification) and is NOT included in the repository. You need to manually create it under the `/backend` directory.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Create a `.env` file inside the `backend/` directory with the following content:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```env
+MONGO_URI=mongodb_uri
+JWT_SECRET=jwt_secret
+PORT=8000
+```
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🚀 Running the Application
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 1️⃣ Start the Backend
 
-### Code Splitting
+```bash
+cd backend
+node server.js
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 2️⃣ Start the Frontend
 
-### Analyzing the Bundle Size
+```bash
+cd frontend
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 3️⃣ Open the App in Your Browser
 
-### Making a Progressive Web App
+🌍 **On Desktop:**  
+Navigate to: [http://localhost:3000](http://localhost:3000)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+📱 **On Mobile (Same Network Required):**  
+Open the browser on your mobile device and go to:
 
-### Advanced Configuration
+```perl
+http://your-local-ip:3000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+(Replace `your-local-ip` with the actual IP address shown in your terminal when running `npm start`.)
 
-### Deployment
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 📚 Usage Guide
 
-### `npm run build` fails to minify
+- **Home Page** – Navigate through the app easily.
+- **Dashboard** – View your progress and quick access to flashcard sets.
+- **Library** – Browse and manage all your flashcard sets.
+- **Create** – Generate new flashcards manually or upload a document for AI-generated flashcards.
+- **Study Mode** – Engage in active recall with progress tracking.
+- **Preview** – Check your flashcards before studying.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## 🔧 Future Improvements
+
+- **Quiz Mode** – Test your knowledge with an interactive quiz feature.
+- **Text-to-Speech** – Listen to your flashcards for better retention.
+- **AI-Based Smart Suggestions** – Improve flashcard content using AI.
+
+---
+
+📝 **Happy Learning! 🚀**

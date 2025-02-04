@@ -1,0 +1,300 @@
+/* General Styles */
+body {
+  margin: 0;
+  font-family: "Merriweather", serif;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #e9edc9; /* Beige */
+}
+
+/* Header Bar */
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background-color: #ccd5ae; /* Tea Green */
+  color: black;
+  position: relative;
+}
+
+/* Back Button */
+.back-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.back-button img {
+  width: 30px;
+  height: 30px;
+}
+
+/* Title */
+.preview-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-align: center;
+  flex-grow: 1;
+}
+
+.start-learning-button {
+  padding: 10px 10px;
+  margin-left: 10px;
+  margin-left: 10px;
+  background-color: #faedcd;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.start-learning-button:hover {
+  background-color: #a8b68e;
+}
+
+/* Content Layout */
+.content-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 20px;
+}
+
+/* Flashcard Grid */
+.flashcard-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 70%;
+}
+
+/* Flashcard */
+.flashcard {
+  width: 300px;
+  height: 200px;
+  background-color: #fefae0; /* Tea Green */
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* ✅ Centers content vertically */
+  align-items: center;
+  transition: transform 0.3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.flashcard:hover {
+  transform: scale(1.05);
+}
+
+/* Question */
+.flashcard .flashcard-question {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: black;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* ✅ Horizontal Line for Separation */
+.flashcard hr {
+  border: none;
+  height: 2px;
+  background-color: #b9c29e; /* Sage */
+  width: 80%;
+  margin: 10px 0;
+}
+
+/* Answer */
+.flashcard .flashcard-answer {
+  font-size: 1rem;
+  color: black;
+  text-align: center;
+}
+
+/* Show More Button */
+.show-more-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.show-more-button {
+  background-color: #b9c29e; /* Sage */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.show-more-button:hover {
+  background-color: #a8b090; /* Slightly darker shade */
+}
+
+/* Progress Component */
+.progress-container {
+  background-color: #ccd5ae; /* Tea Green */
+  padding: 20px;
+  border-radius: 10px;
+  width: 250px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* Progress Title */
+.progress-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Progress Circle */
+.progress-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 5px solid #b9c29e; /* Sage */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin: 0 auto 20px auto;
+}
+
+/* ✅ Legend Entries Now Start from a New Line */
+.progress-info span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* ✅ Styled Dots */
+.progress-info .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Learned */
+.progress-info .dot.learned {
+  background-color: #ffffff; /* White */
+  border: 1px solid black;
+}
+
+/* To Be Reviewed */
+.progress-info .dot.review {
+  background-color: #faedcd; /* Papaya Whip */
+}
+
+/* Not Learned */
+.progress-info .dot.not-learned {
+  background-color: #000000; /* Black */
+}
+
+/* PreviewPage.css */
+/* Popup Overlay */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+/* Popup Content */
+.popup-content {
+  background: #fefae0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+}
+
+.popup-content {
+  padding: 20px;
+  background-color: #fefae0;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.input-container {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="text"] {
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  height: 50px;
+  border: 1px solid #fefae0;
+  border-radius: 4px;
+  margin-bottom: 5px;
+}
+
+label {
+  font-size: 14px;
+  color: #333;
+  margin-top: 5px;
+}
+
+.popup-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-cancel,
+.popup-confirm {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.popup-cancel {
+  background-color: #711805;
+  border: none;
+  color: white;
+  border-radius: 4px;
+}
+
+.popup-confirm {
+  background-color: #506d06;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.popup-actions button {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.popup-actions button:hover {
+  background-color: #333;
+  color: white;
+}

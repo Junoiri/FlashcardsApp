@@ -1,0 +1,293 @@
+/* General styles for the body */
+body {
+  margin: 0;
+  font-family: "Merriweather", serif;
+  overflow-y: auto;
+}
+
+/* Container for the library page */
+.library-container {
+  display: flex;
+  height: auto;
+  background-color: #f4f4f9;
+  min-height: 100vh;
+  background-image: url("../assets/desktop-bg2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Responsive background image for smaller screens */
+@media (max-width: 768px) {
+  .library-container {
+    background-image: url("../assets/mobile-bg2.jpg");
+  }
+}
+
+/* Sidebar styles */
+.library-sidebar {
+  background-color: #6c757d;
+  color: white;
+  display: inline-block;
+  padding: 20px 15px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  white-space: nowrap;
+}
+
+.library-sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.library-sidebar li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.library-sidebar img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 10px;
+}
+
+.library-sidebar a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+  text-align: center;
+}
+
+.library-sidebar a:hover {
+  color: #faedcd;
+}
+
+/* Responsive sidebar styles for smaller screens */
+@media (max-width: 768px) {
+  .library-sidebar {
+    padding: 10px 10px;
+  }
+
+  .library-sidebar li {
+    margin: 10px 0;
+  }
+
+  .library-sidebar img {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 5px;
+  }
+
+  .library-sidebar a {
+    font-size: 1rem;
+  }
+}
+
+/* Main content area styles */
+.library-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Placeholder for main content */
+.content-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+/* Transparent rectangle container */
+.transparent-rectangle {
+  background-color: rgba(255, 255, 255, 0.25);
+  margin: 0;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 1200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+/* Title styles */
+.library-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Filter and sort container styles */
+.filter-sort-container {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Category filter and sort options styles */
+.category-filter,
+.sort-options {
+  padding: 10px;
+  border: 1px solid #ccd5ae;
+  border-radius: 4px;
+  background-color: #fefae0;
+  color: #595d4d;
+  font-size: 1rem;
+}
+
+/* Create study set button styles */
+.create-study-set-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #faedcd;
+  color: #595d4d;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.create-study-set-button:hover {
+  background-color: #e9edc9;
+}
+
+.create-study-set-button img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* Responsive create study set button styles for larger screens */
+@media (min-width: 769px) {
+  .create-study-set-button {
+    justify-content: flex-end;
+  }
+}
+
+/* Flashcards grid styles */
+.flashcards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Popup overlay styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+/* Popup content styles */
+.popup-content {
+  background: #fefae0;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+}
+
+.popup-content h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Popup input styles */
+.popup-input {
+  margin-bottom: 20px;
+}
+
+.popup-input label {
+  display: block;
+  margin-bottom: 8px;
+  color: #595d4d;
+}
+
+.popup-input input,
+.popup-input select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccd5ae;
+  border-radius: 4px;
+  background-color: #fefae0;
+  color: #333;
+}
+
+/* Popup actions styles */
+.popup-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.popup-confirm {
+  background-color: #ccd5ae;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.popup-confirm:hover {
+  background-color: #a8b68e;
+}
+
+.popup-cancel {
+  background-color: #faedcd;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.popup-cancel:hover {
+  background-color: #e9edc9;
+}
+
+/* Close icon styles */
+.popup-close-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.popup-close-icon:hover {
+  transform: scale(1.2);
+}

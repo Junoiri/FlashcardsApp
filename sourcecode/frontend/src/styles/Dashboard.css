@@ -1,0 +1,246 @@
+/* General styles for the body */
+body {
+  margin: 0;
+  font-family: "Merriweather", serif;
+  overflow-y: auto;
+}
+
+/* Container for the dashboard page */
+.dashboard-container {
+  display: flex;
+  height: auto;
+  background-color: #f4f4f9;
+  min-height: 100vh;
+  background-image: url("../assets/desktop-bg2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Responsive background image for smaller screens */
+@media (max-width: 768px) {
+  .dashboard-container {
+    background-image: url("../assets/mobile-bg2.jpg");
+  }
+}
+
+/* Sidebar styles */
+.dashboard-sidebar {
+  background-color: #6c757d;
+  color: white;
+  display: inline-block;
+  padding: 20px 15px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
+  white-space: nowrap;
+}
+
+.dashboard-sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.dashboard-sidebar li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.dashboard-sidebar img {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 10px;
+}
+
+.dashboard-sidebar a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+  text-align: center;
+}
+
+.dashboard-sidebar a:hover {
+  color: #faedcd;
+}
+
+/* Responsive sidebar styles for smaller screens */
+@media (max-width: 768px) {
+  .dashboard-sidebar {
+    padding: 10px 10px;
+  }
+
+  .dashboard-sidebar li {
+    margin: 10px 0;
+  }
+
+  .dashboard-sidebar img {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 5px;
+  }
+
+  .dashboard-sidebar a {
+    font-size: 1rem;
+  }
+}
+
+/* Main content area styles */
+.dashboard-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Placeholder for main content */
+.content-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+
+/* Transparent rectangle container */
+.transparent-rectangle {
+  background-color: rgba(255, 255, 255, 0.25);
+  margin: 0;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 1200px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+}
+
+/* Welcome message styles */
+.welcome-message {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+}
+
+/* Activity header styles */
+.activity-header {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* Flashcards header styles */
+.flashcards-header {
+  font-size: 1.5rem;
+  margin-top: 40px;
+  text-align: center;
+}
+
+/* Flashcards grid styles */
+.flashcards-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+.flashcards-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.flashcards-grid::-webkit-scrollbar-thumb {
+  background: #ccd5ae;
+  border-radius: 4px;
+}
+
+.flashcards-grid::-webkit-scrollbar-track {
+  background: #fefae0;
+}
+
+/* Responsive flashcards grid styles for smaller screens */
+@media (max-width: 768px) {
+  .flashcards-grid {
+    flex-direction: column;
+    gap: 15px;
+    overflow-x: hidden;
+  }
+}
+
+/* Activity days grid styles */
+.activity-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px 20px;
+  justify-content: center;
+}
+
+/* Individual activity day styles */
+.activity-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  width: 150px;
+  height: 120px;
+}
+
+.day-label {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.date-label {
+  font-size: 0.9rem;
+  color: #595d4d;
+}
+
+.activity-icon {
+  width: 32px;
+  height: 32px;
+  margin-top: 10px;
+}
+
+/* Responsive activity days grid styles for smaller screens */
+@media (max-width: 768px) {
+  .activity-days {
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+    gap: 15px 5px;
+  }
+
+  .activity-day {
+    width: 60px;
+    height: 110px;
+  }
+}
+
+/* Load more button styles */
+.load-more-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  padding: 12px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.load-more-button:hover {
+  transform: scale(1.05);
+}
+
+.load-more-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}

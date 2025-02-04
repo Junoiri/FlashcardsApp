@@ -1,4 +1,4 @@
-# 📖 Flashcards App
+📖 Flashcards App
 
 ## 🚀 Overview
 

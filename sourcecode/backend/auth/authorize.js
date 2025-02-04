@@ -1,5 +1,10 @@
 const jwt = require("jsonwebtoken");
 
+/**
+ * Middleware to authorize users based on their JWT and required role.
+ * @param {string} requiredRole - The required role for accessing a route (optional).
+ * @returns {function} Middleware function to verify JWT and check role.
+ */
 const authorize = (requiredRole) => {
   return (req, res, next) => {
     const authHeader = req.headers["authorization"];

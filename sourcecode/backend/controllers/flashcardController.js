@@ -3,6 +3,19 @@ const FlashcardSet = require("../models/flashcardSet");
 const extractTextFromPDF = require("../services/pdfService");
 const generateFlashcards = require("../services/openaiService");
 
+/**
+ * @module FlashcardController
+ * @description Handles CRUD operations for flashcards and automatic flashcard generation from PDFs.
+ */
+
+/**
+ * Retrieves all flashcards from the database.
+ * @async
+ * @function getAllFlashcards
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response with all flashcards or an error message.
+ */
 const getAllFlashcards = async (req, res) => {
   try {
     const flashcards = await Flashcard.find();
@@ -12,6 +25,14 @@ const getAllFlashcards = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves all flashcards belonging to a specific set.
+ * @async
+ * @function getFlashcardsBySetId
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response with flashcards or an error message.
+ */
 const getFlashcardsBySetId = async (req, res) => {
   try {
     const flashcards = await Flashcard.find({ setId: req.params.setId });
@@ -25,6 +46,14 @@ const getFlashcardsBySetId = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves a single flashcard by ID.
+ * @async
+ * @function getFlashcardById
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response with the flashcard or an error message.
+ */
 const getFlashcardById = async (req, res) => {
   try {
     const flashcard = await Flashcard.findById(req.params.id);
@@ -36,6 +65,14 @@ const getFlashcardById = async (req, res) => {
   }
 };
 
+/**
+ * Creates a new flashcard.
+ * @async
+ * @function createFlashcard
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response with the newly created flashcard or an error message.
+ */
 const createFlashcard = async (req, res) => {
   const flashcard = new Flashcard({
     setId: req.body.setId,
@@ -51,6 +88,14 @@ const createFlashcard = async (req, res) => {
   }
 };
 
+/**
+ * Updates an existing flashcard.
+ * @async
+ * @function updateFlashcard
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response with the updated flashcard or an error message.
+ */
 const updateFlashcard = async (req, res) => {
   try {
     const flashcard = await Flashcard.findById(req.params.id);
@@ -75,6 +120,14 @@ const updateFlashcard = async (req, res) => {
   }
 };
 
+/**
+ * Deletes a flashcard.
+ * @async
+ * @function deleteFlashcard
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response confirming deletion or an error message.
+ */
 const deleteFlashcard = async (req, res) => {
   try {
     const flashcard = await Flashcard.findById(req.params.id);
@@ -97,6 +150,14 @@ const deleteFlashcard = async (req, res) => {
   }
 };
 
+/**
+ * Creates flashcards from a PDF file by extracting text and using AI to generate terms and definitions.
+ * @async
+ * @function createFlashcardsFromPDF
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response with the generated flashcards or an error message.
+ */
 const createFlashcardsFromPDF = async (req, res) => {
   try {
     const { setId } = req.body;

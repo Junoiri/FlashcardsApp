@@ -9,6 +9,21 @@ if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir);
 }
 
+/**
+ * @module PdfService
+ * @description Extracts text from a PDF file by converting it to images and using Optical Character Recognition (OCR).
+ */
+
+/**
+ * Extracts text from a given PDF file using OCR (Optical Character Recognition).
+ * This function first converts the PDF pages into images and then extracts text from them.
+ * 
+ * @async
+ * @function extractTextFromPDF
+ * @param {string} pdfPath - The file path of the PDF to extract text from.
+ * @returns {string} A Promise that resolves with the extracted text from the PDF.
+ *
+ */
 const extractTextFromPDF = async (pdfPath) => {
   const pdfExtractor = new PdfExtractor(outputDir, {
     viewportScale: (width) => (width > 1600 ? 1600 / width : 1),

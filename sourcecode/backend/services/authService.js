@@ -2,6 +2,23 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+/**
+ * @module AuthService
+ * @description Handles user authentication, including registration and login.
+ */
+
+/**
+ * Registers a new user in the system.
+ * 
+ * @async
+ * @function register
+ * @param {Object} userData - User registration details.
+ * @param {string} userData.username - The username of the new user.
+ * @param {string} userData.email - The email of the new user.
+ * @param {string} userData.password - The plaintext password of the new user.
+ * @param {string} [userData.role="user"] - The role of the user (default: "user").
+ * @returns {Object} The newly created user object.
+ */
 exports.register = async ({ username, email, password, role }) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -21,6 +38,15 @@ exports.register = async ({ username, email, password, role }) => {
   return newUser;
 };
 
+/**
+ * Authenticates a user by verifying credentials and generating a JWT token.
+ * 
+ * @async
+ * @function login
+ * @param {string} email - The email of the user attempting to log in.
+ * @param {string} password - The plaintext password of the user.
+ * @returns {string} A JWT token if authentication is successful.
+ */
 exports.login = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) {
@@ -39,7 +65,7 @@ exports.login = async (email, password) => {
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: "1h",
+      expiresIn: "1h", // Token valid for 1 hour
     }
   );
 

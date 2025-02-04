@@ -1,5 +1,18 @@
 const authService = require("../services/authService");
 
+/**
+ * @module AuthController
+ * @description Handles user authentication and registration.
+ */
+
+/**
+ * Registers a new user.
+ * @async
+ * @function register
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response with success status and user data or an error message.
+ */
 exports.register = async (req, res) => {
   try {
     const { username, email, password, role } = req.body;
@@ -15,6 +28,14 @@ exports.register = async (req, res) => {
   }
 };
 
+/**
+ * Logs in a user and returns an authentication token.
+ * @async
+ * @function login
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {Object} JSON response with success status and JWT token or an error message.
+ */
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;

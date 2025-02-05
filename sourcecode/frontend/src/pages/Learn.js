@@ -35,7 +35,7 @@ const Learn = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:8000/flashcards/set/${flashcardSetId}`,
+          `http://localhost:8000/flashcards?flashcardSetId=${flashcardSetId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }

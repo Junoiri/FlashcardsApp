@@ -24,8 +24,9 @@ const Library = () => {
   const [newSetName, setNewSetName] = useState("");
   const [newSetCategory, setNewSetCategory] = useState("");
   const [username, setUsername] = useState("");
-  const [isEditPopupVisible, setIsEditPopupVisible] = useState(false);
-  const [editingFlashcardSet, setEditingFlashcardSet] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [editFlashcard, setEditFlashcard] = useState(null);
+  const [deleteFlashcardId, setDeleteFlashcardId] = useState(null);
 
   useEffect(() => {
     /**
@@ -44,33 +45,46 @@ const Library = () => {
         const response = await axios.get(
           `http://localhost:8000/flashcardsets`,
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
+
+        console.log(response.data);
 
         const userFlashcardSets = Array.isArray(response.data)
           ? response.data.filter((set) => set.userId === user.id)
           : [];
 
-        const updatedSets = userFlashcardSets.map(async (set) => {
-          const flashcardsResponse = await axios.get(
-            `http://localhost:8000/flashcards?flashcardSetId=${set._id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+        const updatedFlashcardSets = await Promise.all(
+          userFlashcardSets.map(async (set) => {
+            try {
+              console.log(set._id);
+              const flashcardsResponse = await axios.get(
+                `http://localhost:8000/flashcards/set/${set._id}`,
+                {
+                  headers: { Authorization: `Bearer ${token}` },
+                }
+              );
 
-          const flashcardsLength = flashcardsResponse.data.length;
-          return {
-            ...set,
-            flashcardsLength,
-          };
-        });
-        const updatedFlashcardSets = await Promise.all(updatedSets);
+              return {
+                ...set,
+                flashcardsLength: flashcardsResponse.data.length,
+              };
+            } catch (error) {
+              if (error.response?.status === 404) {
+                console.warn(`No flashcards found for set ${set._id}`);
+                return { ...set, flashcardsLength: 0 }; // ✅ Set length to 0 instead of failing
+              }
+
+              console.error(
+                `Error fetching flashcards for set ${set._id}:`,
+                error
+              );
+              return { ...set, flashcardsLength: 0 }; // ✅ Default to 0 on other errors
+            }
+          })
+        );
+
         setFlashcardsSets(updatedFlashcardSets);
       } catch (error) {
         console.error(
@@ -150,85 +164,114 @@ const Library = () => {
   };
 
   /**
-   * Deletes a flashcard set.
+   * Navigates to the preview page for a flashcard set.
    *
-   * @param {string} flashcardSetId - The ID of the flashcard set to delete.
+   * @param {string} flashcardSetId - The ID of the flashcard set to preview.
    */
-  const deleteFlashcardSet = async (flashcardSetId) => {
+  const clickFlashcardSet = (flashcardSetId, flashcardSetTitle) => {
+    localStorage.setItem("flashcardSetTitle", flashcardSetTitle);
+    navigate(`/preview/${flashcardSetId}`);
+  };
+
+  /**
+   * Closes the modal.
+   */
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  /**
+   * Handles the edit button click event.
+   * Sets the flashcard to be edited.
+   *
+   * @param {Object} flashcard - The flashcard to edit.
+   */
+  const handleEditClick = (flashcard) => {
+    setEditFlashcard(flashcard);
+  };
+
+  /**
+   * Handles the delete button click event.
+   * Sets the flashcard ID to be deleted.
+   *
+   * @param {string} flashcardId - The ID of the flashcard to delete.
+   */
+  const handleDeleteClick = (flashcardId) => {
+    setDeleteFlashcardId(flashcardId);
+  };
+
+  /**
+   * Confirms the deletion of the flashcard.
+   */
+  const confirmDelete = async () => {
+    if (!deleteFlashcardId) return;
+
     try {
+      console.log("Delete Flashcard ID:", deleteFlashcardId);
       const token = localStorage.getItem("token");
 
       await axios.delete(
-        `http://localhost:8000/flashcardsets/${flashcardSetId}`,
+        `http://localhost:8000/flashcardsets/${deleteFlashcardId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
 
-      setFlashcardsSets((prevSets) =>
-        prevSets.filter((set) => set._id !== flashcardSetId)
+      setFlashcardsSets((prevFlashcards) =>
+        prevFlashcards.filter((fc) => fc._id !== deleteFlashcardId)
       );
+
+      setDeleteFlashcardId(null);
     } catch (error) {
-      console.error(
-        "Error deleting flashcard set:",
-        error.response?.data || error
-      );
+      console.error("Error deleting flashcard:", error.response?.data || error);
     }
   };
 
   /**
-   * Opens the edit popup for a flashcard set.
-   *
-   * @param {Object} flashcardSet - The flashcard set to edit.
-   */
-  const editFlashcardSet = (flashcardSet) => {
-    setEditingFlashcardSet(flashcardSet);
-    setIsEditPopupVisible(true);
-  };
-
-  /**
-   * Saves the edited flashcard set.
+   * Saves the edited flashcard.
    */
   const handleSaveEdit = async () => {
-    if (editingFlashcardSet) {
-      try {
-        const token = localStorage.getItem("token");
+    if (!editFlashcard || !editFlashcard._id) {
+      console.error("Flashcard ID is missing:", editFlashcard);
+      return;
+    }
 
-        await axios.patch(
-          `http://localhost:8000/flashcardsets/${editingFlashcardSet._id}`,
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("No token found in localStorage");
+        return;
+      }
+
+      try {
+        const response = await axios.patch(
+          `http://localhost:8000/flashcardsets/${editFlashcard._id}`,
           {
-            title: editingFlashcardSet.title,
-            category: editingFlashcardSet.category,
+            title: editFlashcard.setName,
+            description: editFlashcard.description,
           },
           {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           }
         );
 
-        setFlashcardsSets((prevSets) =>
-          prevSets.map((set) =>
-            set._id === editingFlashcardSet._id ? editingFlashcardSet : set
-          )
-        );
-        setIsEditPopupVisible(false);
+        console.log("Update successful:", response.data);
       } catch (error) {
         console.error(
-          "Error updating flashcard set:",
+          "Error updating flashcard:",
           error.response?.data || error
         );
       }
-    }
-  };
 
-  /**
-   * Navigates to the preview page for a flashcard set.
-   *
-   * @param {string} flashcardSetId - The ID of the flashcard set to preview.
-   */
-  const clickFlashcardSet = (flashcardSetId) => {
-    navigate(`/preview/${flashcardSetId}`);
+      setFlashcardsSets(
+        flashcardSets.map((fc) =>
+          fc._id === editFlashcard._id ? editFlashcard : fc
+        )
+      );
+      setEditFlashcard(null);
+    } catch (error) {
+      console.error("Error updating flashcard:", error);
+    }
   };
 
   const categories = [
@@ -330,9 +373,9 @@ const Library = () => {
                   category={card.category}
                   numFlashcards={card.flashcardsLength}
                   author={username}
-                  onClick={() => clickFlashcardSet(card._id)}
-                  onDelete={deleteFlashcardSet}
-                  onEdit={() => editFlashcardSet(card)}
+                  onClick={() => clickFlashcardSet(card._id, card.title)}
+                  onEdit={() => handleEditClick(card)}
+                  onDelete={() => handleDeleteClick(card._id)}
                 />
               ))}
             </div>
@@ -387,51 +430,83 @@ const Library = () => {
         </div>
       )}
 
-      {isEditPopupVisible && editingFlashcardSet && (
-        <div className="popup-overlay">
+      {showModal && (
+        <div className="popup-overlay" onClick={(e) => e.stopPropagation()}>
+          <div className="popup-content">
+            <button className="popup-close-icon" onClick={closeModal}>
+              ✖
+            </button>
+            <h2>Nothing to Learn Yet</h2>
+            <p>
+              It looks like there are no flashcards in this set. Please add some
+              flashcards to start learning!
+            </p>
+            <button className="popup-close-button" onClick={closeModal}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
+      {editFlashcard && (
+        <div className="popup-overlay" onClick={(e) => e.stopPropagation()}>
           <div className="popup-content">
             <h2>Edit Flashcard Set</h2>
-            <div className="popup-input">
-              <label>Study Set Name</label>
-              <input
-                type="text"
-                value={editingFlashcardSet.title}
-                onChange={(e) =>
-                  setEditingFlashcardSet({
-                    ...editingFlashcardSet,
-                    title: e.target.value,
-                  })
-                }
-                placeholder="Enter set name"
-              />
-            </div>
-            <div className="popup-input">
-              <label>Category</label>
-              <select
-                value={editingFlashcardSet.category}
-                onChange={(e) =>
-                  setEditingFlashcardSet({
-                    ...editingFlashcardSet,
-                    category: e.target.value,
-                  })
-                }
-              >
-                {categories.map((category, index) => (
-                  <option key={index} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
+
+            <label>Set Name</label>
+            <input
+              type="text"
+              value={editFlashcard.title}
+              onChange={(e) =>
+                setEditFlashcard({ ...editFlashcard, title: e.target.value })
+              }
+            />
+
+            <label style={{ marginBottom: "8px", display: "block" }}>
+              Category
+            </label>
+            <select
+              value={editFlashcard.category}
+              onChange={(e) =>
+                setEditFlashcard({ ...editFlashcard, category: e.target.value })
+              }
+              style={{ marginBottom: "16px", padding: "8px" }}
+            >
+              {categories.map((category, index) => (
+                <option key={index} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+
             <div className="popup-actions">
               <button
-                onClick={() => setIsEditPopupVisible(false)}
+                onClick={() => setEditFlashcard(null)}
                 className="popup-cancel"
               >
                 Cancel
               </button>
-              <button className="popup-confirm" onClick={handleSaveEdit}>
+              <button onClick={handleSaveEdit} className="popup-confirm">
                 Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deleteFlashcardId && (
+        <div className="popup-overlay" onClick={(e) => e.stopPropagation()}>
+          <div className="popup-content">
+            <p>Are you sure you want to delete this flashcard set?</p>
+            <div className="popup-actions">
+              <button onClick={confirmDelete} className="popup-confirm">
+                Yes, Delete
+              </button>
+              <button
+                onClick={() => setDeleteFlashcardId(null)}
+                className="popup-cancel"
+              >
+                Cancel
               </button>
             </div>
           </div>

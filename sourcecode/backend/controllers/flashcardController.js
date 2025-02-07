@@ -104,7 +104,7 @@ const updateFlashcard = async (req, res) => {
     }
 
     const flashcardSet = await FlashcardSet.findById(flashcard.setId);
-    if (!flashcardSet || flashcardSet.userId.toString() !== req.user.id) {
+    if (!flashcardSet || flashcardSet.userId.toString() !== req.user.userId) {
       return res.status(403).json({
         message: "Access denied: You can only edit flashcards in your own sets",
       });
@@ -136,14 +136,14 @@ const deleteFlashcard = async (req, res) => {
     }
 
     const flashcardSet = await FlashcardSet.findById(flashcard.setId);
-    if (!flashcardSet || flashcardSet.userId.toString() !== req.user.id) {
+    if (!flashcardSet || flashcardSet.userId.toString() !== req.user.userId) {
       return res.status(403).json({
         message:
           "Access denied: You can only delete flashcards in your own sets",
       });
     }
 
-    await flashcard.remove();
+    await flashcard.deleteOne();
     res.json({ message: "Flashcard deleted successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });

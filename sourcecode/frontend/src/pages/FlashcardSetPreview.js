@@ -35,9 +35,10 @@ const PreviewPage = () => {
      */
     const fetchFlashcardSet = async () => {
       try {
+        console.log("Fetching flashcard set with ID:", flashcardSetId);
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:8000/flashcards?flashcardSetId=${flashcardSetId}`,
+          `http://localhost:8000/flashcards/set/${flashcardSetId}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -46,12 +47,12 @@ const PreviewPage = () => {
         console.log("API Response:", response.data);
         setFlashcards(response.data);
         setFlashcardsLength(response.data.length);
-        console.log(response.data.length);
       } catch (error) {
         console.error("Error fetching flashcards:", error);
         setError("An error occurred while fetching the flashcards.");
       }
     };
+
     fetchFlashcardSet();
   }, [flashcardSetId]);
 
@@ -120,6 +121,8 @@ const PreviewPage = () => {
    */
   const confirmDelete = async () => {
     if (!deleteFlashcardId) return;
+    console.log("Delete Flashcard ID:", deleteFlashcardId);
+
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
@@ -129,7 +132,8 @@ const PreviewPage = () => {
         }
       );
 
-      setFlashcards(flashcards.filter((fc) => fc.id !== deleteFlashcardId));
+      // Update the flashcard list after deletion
+      setFlashcards(flashcards.filter((fc) => fc._id !== deleteFlashcardId));
       setDeleteFlashcardId(null);
     } catch (error) {
       console.error("Error deleting flashcard:", error);
@@ -145,6 +149,8 @@ const PreviewPage = () => {
       return;
     }
 
+    console.log("Saving edited flashcard:", editFlashcard);
+
     try {
       const token = localStorage.getItem("token");
       await axios.patch(
@@ -158,11 +164,11 @@ const PreviewPage = () => {
         }
       );
 
-      setFlashcards(
-        flashcards.map((fc) =>
-          fc._id === editFlashcard._id ? editFlashcard : fc
-        )
+      const updatedFlashcards = flashcards.map((fc) =>
+        fc._id === editFlashcard._id ? editFlashcard : fc
       );
+
+      setFlashcards(updatedFlashcards);
       setEditFlashcard(null);
     } catch (error) {
       console.error("Error updating flashcard:", error);
@@ -214,7 +220,7 @@ const PreviewPage = () => {
                         </button>
                         <button
                           className="delete-button"
-                          onClick={() => handleDeleteClick(flashcard.id)}
+                          onClick={() => handleDeleteClick(flashcard._id)}
                         >
                           <img src={deleteIcon} alt="Delete" />
                         </button>

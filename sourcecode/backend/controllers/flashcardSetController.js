@@ -96,6 +96,8 @@ const createFlashcardSet = async (req, res) => {
  */
 const updateFlashcardSet = async (req, res) => {
   try {
+    console.log("Request User:", req.user);
+
     const flashcardSetId = req.params.id.trim();
 
     if (!mongoose.Types.ObjectId.isValid(flashcardSetId)) {
@@ -109,12 +111,12 @@ const updateFlashcardSet = async (req, res) => {
       return res.status(404).json({ message: "Flashcard set not found" });
     }
 
-    if (flashcardSet.userId.toString() !== req.user.id) {
-      return res
-        .status(403)
-        .json({
-          message: "Access denied: You can only update your own flashcard sets",
-        });
+    console.log("Flashcard Set Owner:", flashcardSet.userId.toString());
+
+    if (flashcardSet.userId.toString() !== req.user.userId) {
+      return res.status(403).json({
+        message: `Access denied: You can only update your own flashcard sets`,
+      });
     }
 
     if (req.body.title != null) {
@@ -142,6 +144,8 @@ const updateFlashcardSet = async (req, res) => {
  */
 const deleteFlashcardSet = async (req, res) => {
   try {
+    console.log("Delete request received for ID:", req.params.id);
+
     const flashcardSetId = req.params.id.trim();
 
     if (!mongoose.Types.ObjectId.isValid(flashcardSetId)) {
@@ -155,12 +159,12 @@ const deleteFlashcardSet = async (req, res) => {
       return res.status(404).json({ message: "Flashcard set not found" });
     }
 
-    if (flashcardSet.userId.toString() !== req.user.id) {
-      return res
-        .status(403)
-        .json({
-          message: "Access denied: You can only delete your own flashcard sets",
-        });
+    console.log("Flashcard set found:", flashcardSet);
+
+    if (flashcardSet.userId.toString() !== req.user.userId) {
+      return res.status(403).json({
+        message: "Access denied: You can only delete your own flashcard sets",
+      });
     }
 
     await flashcardSet.deleteOne();
